@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tap In — You already see them. Now say hi.</title>
+<meta name="description" content="Tap In turns missed connections into real ones. See who's at your bar tonight. Join the waitlist."/>
+<meta property="og:title" content="Tap In — You already see them. Now say hi."/>
+<meta property="og:description" content="The app that fixes the person you didn't talk to last Friday."/>
+<meta property="og:image" content="https://tapinofficial.github.io/tapin-landing/og.jpg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FAFAF8;
+  --bg2: #F3F2EE;
+  --ink: #0E0E0C;
+  --ink2: #6B6B65;
+  --ink3: #A8A8A2;
+  --purple: #6B21A8;
+  --purple-soft: #EDE9FE;
+  --green: #16A34A;
+  --green-soft: #DCFCE7;
+  --coral: #F43F5E;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --border: rgba(14,14,12,0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  background: rgba(250,250,248,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--serif); font-style: italic;
+  font-size: 22px; color: var(--ink); letter-spacing: -0.02em;
+}
+.nav-cta {
+  background: var(--ink); color: var(--bg);
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  padding: 9px 20px; border-radius: 100px; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: opacity 0.15s;
+}
+.nav-cta:hover { opacity: 0.8; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 100px 24px 60px;
+  position: relative;
+  background: linear-gradient(180deg, #FAFAF8 0%, #F3F2EE 100%);
+}
+
+.live-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--green-soft);
+  color: var(--green);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: 12px; font-weight: 600;
+  margin-bottom: 28px;
+}
+.live-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pip 1.5s ease-in-out infinite;
+}
+@keyframes pip { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero h1 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(48px, 9vw, 100px);
+  line-height: 1.0; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 24px;
+  max-width: 800px;
+}
+.hero h1 em { color: var(--purple); font-style: italic; }
+
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--ink2); max-width: 440px; line-height: 1.7;
+  margin-bottom: 44px;
+}
+
+/* ── EMAIL FORM ── */
+.email-form {
+  display: flex; gap: 0;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 5px;
+  max-width: 420px; width: 100%;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  margin-bottom: 14px;
+}
+.email-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--sans); font-size: 14px;
+  padding: 10px 18px; color: var(--ink);
+}
+.email-input::placeholder { color: var(--ink3); }
+.email-submit {
+  background: var(--ink); color: #fff;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  padding: 10px 22px; border-radius: 100px; border: none;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.email-submit:hover { opacity: 0.85; }
+.form-note {
+  font-size: 12px; color: var(--ink3);
+  text-align: center; margin-bottom: 60px;
+}
+
+/* ── SOCIAL PROOF ── */
+.social-proof {
+  display: flex; gap: 32px; align-items: center;
+  flex-wrap: wrap; justify-content: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.proof-item { text-align: center; }
+.proof-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 28px; color: var(--ink); line-height: 1;
+}
+.proof-label { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+.proof-divider { width: 1px; height: 32px; background: var(--border); }
+
+/* ── PHONE MOCKUP SECTION ── */
+.mockup-section {
+  padding: 80px 24px;
+  background: var(--ink);
+  overflow: hidden;
+  position: relative;
+}
+.mockup-section::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(107,33,168,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.mockup-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.mockup-copy { }
+.mockup-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 24px;
+}
+.mockup-h2 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(32px, 5vw, 52px);
+  color: #fff; line-height: 1.1; margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.mockup-h2 em { color: #C4B5FD; }
+.mockup-desc {
+  font-size: 15px; color: rgba(255,255,255,0.55);
+  line-height: 1.8; margin-bottom: 36px;
+}
+.mockup-steps { display: flex; flex-direction: column; gap: 16px; }
+.mockup-step {
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+.step-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+.step-text strong { color: #fff; font-weight: 500; }
+
+/* Phone mockup */
+.phone-wrap {
+  display: flex; justify-content: center;
+  position: relative;
+}
+.phone {
+  width: 240px;
+  background: #1A1A2E;
+  border-radius: 40px;
+  border: 3px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+  animation: phone-float 4s ease-in-out infinite;
+}
+@keyframes phone-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.phone-notch {
+  width: 100px; height: 28px;
+  background: #0E0E1A;
+  border-radius: 0 0 20px 20px;
+  margin: 0 auto 0;
+}
+.phone-screen { padding: 0 12px 20px; }
+.phone-venue {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 14px;
+}
+.venue-name { font-size: 11px; font-weight: 600; color: #fff; }
+.venue-count {
+  font-size: 10px; color: #4ADE80;
+  display: flex; align-items: center; gap: 4px;
+}
+.venue-count::before {
+  content: ''; display: block;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #4ADE80;
+}
+.people-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 12px;
+}
+.person-tile {
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 10px 6px;
+  text-align: center; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.15s;
+  position: relative;
+}
+.person-tile.tapped {
+  border-color: rgba(167,139,250,0.5);
+  background: rgba(107,33,168,0.2);
+}
+.p-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  margin: 0 auto 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: #fff;
+}
+.p-name { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 500; }
+.p-age { font-size: 8px; color: rgba(255,255,255,0.35); }
+.tap-icon {
+  position: absolute; top: 5px; right: 5px;
+  font-size: 10px;
+}
+.phone-tap-bar {
+  background: rgba(107,33,168,0.3);
+  border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 10px; padding: 10px;
+  text-align: center;
+}
+.tap-bar-text { font-size: 9px; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+.tap-emojis { display: flex; justify-content: center; gap: 8px; font-size: 14px; }
+
+@media(max-width: 720px) {
+  .mockup-inner { grid-template-columns: 1fr; text-align: center; }
+  .mockup-steps { align-items: center; }
+  .mockup-step { text-align: left; }
+  .phone-wrap { margin-top: 40px; }
+}
+
+/* ── MISSED CONNECTIONS ── */
+.missed-section {
+  padding: 80px 24px;
+  background: var(--bg);
+}
+.missed-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+.section-eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--purple);
+  margin-bottom: 20px;
+}
+.missed-h2 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(28px, 5vw, 48px);
+  color: var(--ink); line-height: 1.15;
+  letter-spacing: -0.02em; margin-bottom: 16px;
+}
+.missed-sub {
+  font-size: 16px; color: var(--ink2); line-height: 1.7;
+  margin-bottom: 56px;
+}
+
+.stories { display: flex; flex-direction: column; gap: 0; text-align: left; }
+.story {
+  display: flex; gap: 20px; align-items: baseline;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s;
+  border-radius: 8px;
+  padding-left: 8px; padding-right: 8px;
+  cursor: default;
+}
+.story:hover { background: var(--purple-soft); }
+.story.visible { opacity: 1; transform: translateY(0); }
+.story-time {
+  font-size: 11px; color: var(--purple); font-weight: 600;
+  min-width: 56px; padding-top: 2px;
+}
+.story-text {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(16px, 2.5vw, 20px); color: var(--ink);
+  line-height: 1.4; flex: 1;
+}
+.story-place {
+  font-size: 11px; color: var(--ink3);
+  white-space: nowrap; text-align: right;
+  min-width: 100px;
+}
+@media(max-width:600px) { .story-place { display: none; } }
+
+/* ── HOW IT WORKS ── */
+.how-section {
+  padding: 80px 24px;
+  background: var(--purple-soft);
+}
+.how-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+.how-h2 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--ink); margin-bottom: 12px; letter-spacing: -0.02em;
+}
+.how-sub { font-size: 15px; color: var(--ink2); margin-bottom: 52px; }
+.how-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.how-step {
+  background: #fff; border-radius: 20px;
+  padding: 32px 24px;
+  border: 1px solid rgba(107,33,168,0.1);
+  text-align: left;
+}
+.how-emoji { font-size: 32px; margin-bottom: 16px; }
+.how-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.how-desc { font-size: 13px; color: var(--ink2); line-height: 1.7; }
+@media(max-width:600px){ .how-steps { grid-template-columns: 1fr; } }
+
+/* ── FINAL CTA ── */
+.cta-section {
+  padding: 100px 24px;
+  text-align: center;
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(107,33,168,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-h2 {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(36px, 6vw, 72px);
+  color: #fff; line-height: 1.05;
+  letter-spacing: -0.03em; margin-bottom: 20px;
+}
+.cta-h2 em { color: #C4B5FD; }
+.cta-sub { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 44px; }
+.cta-form {
+  display: flex; gap: 0;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 100px; padding: 5px;
+  max-width: 420px; width: 100%;
+  margin: 0 auto 14px;
+}
+.cta-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--sans); font-size: 14px;
+  padding: 10px 18px; color: #fff;
+}
+.cta-input::placeholder { color: rgba(255,255,255,0.3); }
+.cta-submit {
+  background: #fff; color: var(--ink);
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  padding: 10px 22px; border-radius: 100px; border: none;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.cta-submit:hover { opacity: 0.85; }
+.cta-note { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+}
+.footer-logo {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; color: var(--ink);
+}
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+  font-size: 13px; color: var(--ink3);
+  text-decoration: none; transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--ink); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+
+@media(prefers-reduced-motion:reduce){
+  *, .reveal, .story { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">tap in.</div>
+  <a href="#waitlist" class="nav-cta">Get early access →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="live-pill">
+    <span class="live-pip"></span>
+    1,100+ people already waiting
+  </div>
+
+  <h1>You already<br/>see them.<br/><em>Now say hi.</em></h1>
+
+  <p class="hero-sub">
+    Tap In shows you who's at your venue tonight.
+    Send a tap. If they tap back, you're connected.
+    No rejection. No awkwardness. Just the conversation you almost never had.
+  </p>
+
+  <form class="email-form" onsubmit="submitHero(event)" id="hero-form">
+    <input type="email" class="email-input" id="hero-email" placeholder="your@email.com" required/>
+    <button type="submit" class="email-submit">Join waitlist</button>
+  </form>
+  <p class="form-note" id="hero-note">NYC launch first · No spam · Free to join</p>
+
+  <div class="social-proof">
+    <div class="proof-item">
+      <div class="proof-num">1,100+</div>
+      <div class="proof-label">on waitlist</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-num">20</div>
+      <div class="proof-label">NYC venues</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-num">96%</div>
+      <div class="proof-label">have had a missed connection</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <div class="proof-num">$0</div>
+      <div class="proof-label">to sign up</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHONE MOCKUP -->
+<section class="mockup-section">
+  <div class="mockup-inner">
+    <div class="mockup-copy reveal">
+      <div class="mockup-tag">The product</div>
+      <h2 class="mockup-h2">
+        The room,<br/>
+        <em>made visible.</em>
+      </h2>
+      <p class="mockup-desc">
+        Walk in. Check in. See a live grid of everyone who's there tonight.
+        Tap someone you're feeling. If it's mutual — you both know.
+        That's it. That's the whole thing.
+      </p>
+      <div class="mockup-steps">
+        <div class="mockup-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Check in</strong> at your venue — takes 5 seconds</div>
+        </div>
+        <div class="mockup-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>See who's there</strong> — live grid, real people, right now</div>
+        </div>
+        <div class="mockup-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Send a tap</strong> — if they tap back, you connect. If not, they never know.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="phone-wrap reveal reveal-d2">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-venue">
+            <div class="venue-name">Elsewhere · BK</div>
+            <div class="venue-count">23 here</div>
+          </div>
+          <div class="people-grid">
+            <div class="person-tile tapped">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#7C3AED,#EC4899)">S</div>
+              <div class="p-name">Sofia</div>
+              <div class="p-age">24</div>
+              <div class="tap-icon">⚡</div>
+            </div>
+            <div class="person-tile">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#0EA5E9,#6366F1)">M</div>
+              <div class="p-name">Marcus</div>
+              <div class="p-age">26</div>
+            </div>
+            <div class="person-tile">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">A</div>
+              <div class="p-name">Aisha</div>
+              <div class="p-age">23</div>
+            </div>
+            <div class="person-tile">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#10B981,#0EA5E9)">J</div>
+              <div class="p-name">Jake</div>
+              <div class="p-age">27</div>
+            </div>
+            <div class="person-tile tapped">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#EC4899,#F59E0B)">L</div>
+              <div class="p-name">Luna</div>
+              <div class="p-age">22</div>
+              <div class="tap-icon">⚡</div>
+            </div>
+            <div class="person-tile">
+              <div class="p-avatar" style="background:linear-gradient(135deg,#8B5CF6,#10B981)">R</div>
+              <div class="p-name">Ryan</div>
+              <div class="p-age">25</div>
+            </div>
+          </div>
+          <div class="phone-tap-bar">
+            <div class="tap-bar-text">Tap someone you're feeling ✨</div>
+            <div class="tap-emojis">😍 🔥 ✨ 💃 👋</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSED CONNECTIONS -->
+<section class="missed-section">
+  <div class="missed-inner">
+    <div class="section-eyebrow reveal">NYC · Every night</div>
+    <h2 class="missed-h2 reveal">The ones you<br/>didn't talk to.</h2>
+    <p class="missed-sub reveal">
+      96% of people have had a missed connection. This is what it sounds like.
+    </p>
+    <div class="stories">
+      <div class="story">
+        <div class="story-time">11:47 PM</div>
+        <div class="story-text">She was reading on the L train. One stop. You said nothing.</div>
+        <div class="story-place">Williamsburg</div>
+      </div>
+      <div class="story">
+        <div class="story-time">1:23 AM</div>
+        <div class="story-text">You laughed at the same song. He left before last call.</div>
+        <div class="story-place">Baby's All Right</div>
+      </div>
+      <div class="story">
+        <div class="story-time">12:08 AM</div>
+        <div class="story-text">She asked what you were drinking. You forgot to ask her name.</div>
+        <div class="story-place">Elsewhere</div>
+      </div>
+      <div class="story">
+        <div class="story-time">2:14 AM</div>
+        <div class="story-text">Eye contact for three songs. Gone before the set ended.</div>
+        <div class="story-place">TV Eye</div>
+      </div>
+      <div class="story">
+        <div class="story-time">9:43 PM</div>
+        <div class="story-text">You held the door. She said thank you. That was the whole thing.</div>
+        <div class="story-place">Nolita</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-eyebrow reveal">How it works</div>
+    <h2 class="how-h2 reveal">Three taps.<br/>One real connection.</h2>
+    <p class="how-sub reveal">No swiping from your couch. The people you want to meet are already in the room.</p>
+    <div class="how-steps">
+      <div class="how-step reveal reveal-d1">
+        <div class="how-emoji">📍</div>
+        <div class="how-title">Check in</div>
+        <div class="how-desc">Scan the QR at the door or open the app. You're on the grid. Everyone else who checked in can see you.</div>
+      </div>
+      <div class="how-step reveal reveal-d2">
+        <div class="how-emoji">⚡</div>
+        <div class="how-title">Tap someone</div>
+        <div class="how-desc">See someone? Send a tap — or an emoji. They only know if they tap back. Zero rejection risk, ever.</div>
+      </div>
+      <div class="how-step reveal reveal-d3">
+        <div class="how-emoji">💬</div>
+        <div class="how-title">Connect IRL</div>
+        <div class="how-desc">Mutual tap = instant chat unlock. Or just walk over — you already know they're open to it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section" id="waitlist">
+  <h2 class="cta-h2 reveal">
+    Stop going home<br/>wondering <em>"what if."</em>
+  </h2>
+  <p class="cta-sub reveal">NYC launch. Free. Be in the first 1,000.</p>
+  <form class="cta-form reveal" onsubmit="submitCTA(event)" id="cta-form">
+    <input type="email" class="cta-input" id="cta-email" placeholder="your@email.com" required/>
+    <button type="submit" class="cta-submit">I'm in →</button>
+  </form>
+  <p class="cta-note reveal" id="cta-note">No spam. No charge. Just early access when we launch.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">tap in.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="mailto:james@tapin.vip">Contact</a>
+    <a href="https://tapin.vip">tapin.vip</a>
+  </div>
+</footer>
+
+<script>
+// Scroll reveals
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal, .story').forEach(el => io.observe(el));
+
+// Stagger stories
+document.querySelectorAll('.story').forEach((s, i) => {
+  s.style.transitionDelay = (i * 0.08) + 's';
+});
+
+// Forms
+function submitHero(e) {
+  e.preventDefault();
+  document.getElementById('hero-email').value = '';
+  document.getElementById('hero-note').textContent = "🎉 You're in! We'll reach out before NYC launch.";
+  document.getElementById('hero-note').style.color = 'var(--green)';
+}
+function submitCTA(e) {
+  e.preventDefault();
+  document.getElementById('cta-email').value = '';
+  document.getElementById('cta-note').textContent = "🎉 You're in the first 1,000. See you in NYC.";
+  document.getElementById('cta-note').style.color = '#C4B5FD';
+}
+</script>
+</body>
+</html>
