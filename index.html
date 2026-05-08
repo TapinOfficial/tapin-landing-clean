@@ -8,24 +8,27 @@
 <meta property="og:title" content="tap in"/>
 <meta property="og:description" content="not an app. a frequency."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --void:    #080810;
-  --surface: #0D0D1A;
-  --panel:   #11111E;
-  --panel2:  #15152A;
-  --border:  rgba(255,92,122,0.14);
+  --void:    #07070F;
+  --surface: #0C0C1A;
+  --panel:   #101020;
+  --panel2:  #14142A;
+  --border:  rgba(255,92,122,0.15);
   --border2: rgba(255,255,255,0.07);
+  --border3: rgba(255,255,255,0.04);
   --coral:   #FF5C7A;
-  --coral2:  rgba(255,92,122,0.16);
-  --coral3:  rgba(255,92,122,0.07);
-  --white:   #F0EEF5;
-  --dim:     rgba(240,238,245,0.50);
-  --ghost:   rgba(240,238,245,0.20);
-  --sans: 'DM Sans', system-ui, sans-serif;
+  --coral2:  rgba(255,92,122,0.15);
+  --coral3:  rgba(255,92,122,0.06);
+  --white:   #EDE9F4;
+  --dim:     rgba(237,233,244,0.52);
+  --ghost:   rgba(237,233,244,0.22);
+  --faint:   rgba(237,233,244,0.10);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
 }
 
 html { scroll-behavior: smooth; background: var(--void); }
@@ -37,225 +40,423 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
 /* ── ATMOSPHERE ── */
 .grain {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.038;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 128px;
-}
-.vignette {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse 90% 70% at 50% 0%, transparent 20%, rgba(8,8,16,0.55) 100%);
-}
-.glow-top {
-  position: fixed; top: -180px; left: 50%; transform: translateX(-50%);
-  width: 800px; height: 500px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255,92,122,0.08) 0%, transparent 65%);
-  pointer-events: none; z-index: 0;
 }
 
 /* ── NAV ── */
 nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(8,8,16,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  transition: background 0.4s, border-color 0.4s;
+}
+nav.scrolled {
+  background: rgba(7,7,15,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border2);
 }
 .nav-inner {
-  max-width: 900px; margin: 0 auto; padding: 0 24px;
-  height: 56px;
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
+  height: 60px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.logo { font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: lowercase; }
-
+.logo {
+  font-family: var(--serif); font-size: 20px; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--white); font-style: italic;
+}
 .nav-toggle {
   display: flex; align-items: center;
-  background: var(--panel); border: 1px solid var(--border2);
-  border-radius: 20px; padding: 3px;
-  gap: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 24px; padding: 3px; gap: 2px;
 }
 .nav-pill {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: lowercase;
-  padding: 5px 14px; border-radius: 16px;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: lowercase; padding: 6px 18px; border-radius: 20px;
   cursor: pointer; border: none; background: transparent;
   color: var(--ghost); font-family: var(--sans);
-  transition: all 0.2s;
+  transition: all 0.25s;
 }
-.nav-pill.active {
-  background: var(--coral); color: #fff;
-}
-.badge {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--coral); border: 1px solid var(--border);
-  padding: 4px 10px; border-radius: 20px;
-  background: var(--coral3);
-}
+.nav-pill.active { background: var(--coral); color: #fff; }
 
-/* ── WRAP ── */
-.wrap {
-  position: relative; z-index: 2;
-  max-width: 900px; margin: 0 auto;
-  padding: 0 24px;
+.nav-right {
+  display: flex; align-items: center; gap: 20px;
+}
+.nav-link {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: lowercase; color: var(--ghost);
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--white); }
+.badge {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--coral);
+  border: 1px solid var(--border); padding: 5px 12px;
+  border-radius: 20px; background: var(--coral3);
 }
 
 /* ── HERO ── */
 .hero {
-  padding: 90px 0 72px;
-  display: flex; flex-direction: column; align-items: center;
-  text-align: center;
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 32px 80px;
+  overflow: hidden;
 }
-.eyebrow {
-  font-size: 11px; font-weight: 400; letter-spacing: 0.22em;
+/* Atmospheric background */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% -10%, rgba(255,92,122,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(100,60,180,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 40% at 20% 70%, rgba(255,92,122,0.04) 0%, transparent 60%),
+    var(--void);
+}
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, var(--void) 100%);
+}
+.hero-inner { position: relative; z-index: 2; max-width: 720px; }
+.hero-eyebrow {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.24em;
   text-transform: uppercase; color: var(--coral);
-  margin-bottom: 24px;
-  opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
+  margin-bottom: 32px;
+  opacity: 0; animation: fadeUp 0.9s ease 0.1s forwards;
 }
-.headline {
-  font-size: clamp(38px, 7vw, 64px); font-weight: 300;
-  line-height: 1.08; letter-spacing: -0.025em;
-  margin-bottom: 24px;
-  opacity: 0; animation: fadeUp 0.7s ease 0.22s forwards;
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(52px, 9vw, 96px);
+  font-weight: 300; font-style: italic;
+  line-height: 0.95; letter-spacing: -0.01em;
+  margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.9s ease 0.25s forwards;
 }
-.headline em { font-style: italic; color: var(--coral); }
+.hero-headline span { color: var(--coral); }
 .hero-sub {
   font-size: 16px; font-weight: 300; color: var(--dim);
-  line-height: 1.7; max-width: 400px; margin-bottom: 36px;
-  opacity: 0; animation: fadeUp 0.7s ease 0.34s forwards;
+  line-height: 1.8; max-width: 380px; margin: 0 auto 48px;
+  opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards;
 }
-.hero-cta {
+.hero-actions {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.9s ease 0.55s forwards;
+}
+.btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--coral); color: #fff;
   font-family: var(--sans); font-size: 13px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: lowercase;
-  padding: 12px 24px; border-radius: 8px;
+  letter-spacing: 0.08em; text-transform: lowercase;
+  padding: 13px 28px; border-radius: 8px;
   text-decoration: none; border: none; cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
-  opacity: 0; animation: fadeUp 0.7s ease 0.46s forwards;
 }
-.hero-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--dim);
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
+  letter-spacing: 0.06em; text-transform: lowercase;
+  padding: 13px 24px; border-radius: 8px;
+  text-decoration: none; border: 1px solid var(--border2);
+  cursor: pointer; transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--ghost); color: var(--white); }
 
-/* ── SECTION HEADER ── */
-.section-wrap {
-  padding: 80px 0 0;
-  opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ghost); z-index: 2;
+  opacity: 0; animation: fadeUp 0.9s ease 1s forwards;
+}
+.scroll-line {
+  width: 1px; height: 32px;
+  background: linear-gradient(to bottom, var(--coral), transparent);
+}
+
+/* ── SECTION SHARED ── */
+.section {
+  max-width: 1100px; margin: 0 auto; padding: 100px 32px;
+}
+.section-head {
+  display: flex; flex-direction: column; align-items: flex-start;
+  margin-bottom: 64px;
 }
 .section-label {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ghost);
-  margin-bottom: 12px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 14px;
 }
 .section-title {
-  font-size: clamp(26px, 4vw, 38px); font-weight: 300;
-  line-height: 1.2; letter-spacing: -0.02em;
-  margin-bottom: 56px;
+  font-family: var(--serif);
+  font-size: clamp(32px, 5vw, 54px); font-weight: 300; font-style: italic;
+  line-height: 1.1; letter-spacing: -0.01em;
 }
-.section-title em { font-style: italic; color: var(--coral); }
+.section-title span { color: var(--dim); font-style: normal; font-size: 0.55em; font-family: var(--sans); letter-spacing: 0.04em; text-transform: lowercase; display: block; margin-top: 10px; }
+
+/* ── FEATURE STEPS ── */
+.steps { display: flex; flex-direction: column; }
+
+.step {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 80px;
+  padding: 56px 0;
+  border-bottom: 1px solid var(--border3);
+  align-items: center;
+}
+.step:last-child { border-bottom: none; }
+.step.reverse .step-text { order: 2; }
+.step.reverse .step-visual { order: 1; }
+
+.step-num {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  color: var(--coral); text-transform: uppercase; margin-bottom: 16px;
+}
+.step-title {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 38px); font-weight: 300; font-style: italic;
+  line-height: 1.15; margin-bottom: 16px;
+}
+.step-body {
+  font-size: 14px; font-weight: 300; color: var(--dim);
+  line-height: 1.8; max-width: 400px; margin-bottom: 20px;
+}
+.step-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.step-bullets li {
+  font-size: 13px; font-weight: 300; color: var(--ghost);
+  display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+}
+.step-bullets li::before {
+  content: '—'; color: var(--coral); flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── STEP VISUALS (CSS-rendered atmosphere) ── */
+.step-visual {
+  border-radius: 16px; overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+  border: 1px solid var(--border2);
+}
+.sv-1 {
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 40%, rgba(255,92,122,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 70% 70%, rgba(120,60,200,0.10) 0%, transparent 50%),
+    var(--surface);
+}
+.sv-2 {
+  background:
+    radial-gradient(ellipse 60% 60% at 60% 30%, rgba(255,92,122,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 40% at 20% 80%, rgba(255,92,122,0.06) 0%, transparent 50%),
+    var(--surface);
+}
+.sv-3 {
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 50%, rgba(255,92,122,0.14) 0%, transparent 65%),
+    var(--surface);
+}
+.sv-4 {
+  background:
+    radial-gradient(ellipse 50% 50% at 20% 30%, rgba(100,60,200,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(255,92,122,0.10) 0%, transparent 50%),
+    var(--surface);
+}
+
+/* mock UI inside visuals */
+.mock-grid {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; padding: 20px;
+  align-content: start;
+}
+.mock-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.mock-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--coral2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--coral); font-weight: 500; font-family: var(--sans);
+}
+.mock-name {
+  width: 40px; height: 6px; border-radius: 3px;
+  background: rgba(255,255,255,0.15);
+}
+.mock-tag {
+  width: 32px; height: 5px; border-radius: 3px;
+  background: rgba(255,255,255,0.07);
+}
+.mock-pulse {
+  position: absolute; bottom: 16px; right: 16px;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(7,7,15,0.8); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 6px 12px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.08em;
+  color: var(--coral); font-family: var(--sans);
+}
+.mock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.mock-tap {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+}
+.mock-tap-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.mock-tap-ring::before {
+  content: '';
+  position: absolute; inset: -8px; border-radius: 50%;
+  border: 1px solid rgba(255,92,122,0.1);
+  animation: ripple 2.5s ease-out infinite;
+}
+.mock-tap-ring::after {
+  content: '';
+  position: absolute; inset: -16px; border-radius: 50%;
+  border: 1px solid rgba(255,92,122,0.05);
+  animation: ripple 2.5s ease-out 0.5s infinite;
+}
+@keyframes ripple { 0%{transform:scale(0.8);opacity:1} 100%{transform:scale(1.4);opacity:0} }
+.mock-tap-icon { font-size: 28px; }
+.mock-tap-label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: lowercase;
+  color: var(--ghost); font-family: var(--sans);
+}
+
+.mock-match {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 14px;
+}
+.mock-match-line {
+  display: flex; align-items: center; gap: 12px;
+}
+.mock-match-av {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--coral2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--coral); font-family: var(--sans);
+}
+.mock-match-spark {
+  font-size: 20px; animation: sparkle 1.5s ease-in-out infinite;
+}
+@keyframes sparkle { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.85)} }
+.mock-match-badge {
+  background: var(--coral); color: #fff; font-size: 10px;
+  font-family: var(--sans); letter-spacing: 0.1em; text-transform: lowercase;
+  padding: 5px 14px; border-radius: 16px;
+}
+
+.mock-analytics {
+  position: absolute; inset: 0; padding: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.mock-an-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border3);
+  border-radius: 8px; padding: 10px 12px;
+}
+.mock-an-label { font-size: 10px; letter-spacing: 0.1em; color: var(--ghost); font-family: var(--sans); }
+.mock-an-val { font-size: 14px; font-weight: 300; color: var(--white); font-family: var(--sans); }
+.mock-an-val.up { color: var(--coral); }
+.mock-bar-wrap { display: flex; flex-direction: column; gap: 6px; padding: 12px; }
+.mock-bar-row { display: flex; align-items: center; gap: 8px; }
+.mock-bar-day { font-size: 9px; color: var(--ghost); font-family: var(--sans); width: 22px; }
+.mock-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.04); border-radius: 3px; overflow: hidden; }
+.mock-bar-fill { height: 100%; border-radius: 3px; background: var(--coral); }
 
 /* ── AUDIENCE PANELS ── */
 .audience { display: none; }
 .audience.active { display: block; }
 
-/* ── FEATURE STEPS ── */
-.steps { display: flex; flex-direction: column; gap: 0; }
-
-.step {
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 0 28px;
-  padding: 40px 0;
-  border-bottom: 1px solid var(--border2);
-  position: relative;
+/* ── STATS ── */
+.stats-section {
+  border-top: 1px solid var(--border3);
+  border-bottom: 1px solid var(--border3);
+  padding: 0;
 }
-.step:last-child { border-bottom: none; }
-
-.step-num {
-  font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
-  color: var(--coral); padding-top: 4px;
-  text-transform: uppercase;
-}
-.step-content { display: flex; flex-direction: column; gap: 10px; }
-.step-title {
-  font-size: 22px; font-weight: 300; letter-spacing: -0.015em;
-  line-height: 1.25;
-}
-.step-title em { font-style: italic; color: var(--coral); }
-.step-body {
-  font-size: 14px; font-weight: 300; color: var(--dim);
-  line-height: 1.75; max-width: 480px;
-}
-.step-bullets {
-  list-style: none; display: flex; flex-direction: column; gap: 7px;
-  margin-top: 4px;
-}
-.step-bullets li {
-  font-size: 13px; font-weight: 300; color: var(--ghost);
-  display: flex; align-items: flex-start; gap: 8px;
-}
-.step-bullets li::before {
-  content: '—'; color: var(--coral); font-weight: 300; flex-shrink: 0; margin-top: 1px;
-}
-
-/* ── STAT ROW ── */
-.stat-row {
-  display: flex; gap: 0; padding: 64px 0;
-  border-top: 1px solid var(--border2);
-  margin-top: 56px;
+.stats-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
 }
 .stat-block {
-  flex: 1; text-align: center; padding: 0 24px;
-  border-right: 1px solid var(--border2);
+  padding: 48px 24px;
+  border-right: 1px solid var(--border3);
+  text-align: center;
 }
 .stat-block:last-child { border-right: none; }
 .stat-n {
-  font-size: 36px; font-weight: 200; color: var(--white);
-  letter-spacing: -0.03em; line-height: 1;
-  margin-bottom: 8px;
+  font-family: var(--serif); font-size: 52px; font-weight: 300; font-style: italic;
+  color: var(--white); line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em;
 }
+.stat-n sub { font-size: 24px; font-style: normal; font-family: var(--sans); font-weight: 200; }
 .stat-l {
-  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--ghost);
 }
 
-/* ── APPLY SECTION ── */
-.apply-section {
-  padding: 80px 0 60px;
-  display: flex; gap: 60px;
-  align-items: flex-start;
+/* ── APPLY ── */
+.apply-wrap {
+  max-width: 1100px; margin: 0 auto;
+  padding: 100px 32px;
+  display: grid; grid-template-columns: 1fr 420px;
+  gap: 80px; align-items: start;
 }
-.apply-left { flex: 1; padding-top: 8px; }
-.apply-left-label {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ghost); margin-bottom: 14px;
+.apply-left { padding-top: 8px; }
+.apply-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 16px;
 }
-.apply-left-title {
-  font-size: clamp(24px, 3.5vw, 34px); font-weight: 300;
-  letter-spacing: -0.02em; line-height: 1.2;
-  margin-bottom: 16px;
+.apply-title {
+  font-family: var(--serif); font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 300; font-style: italic; line-height: 1.1;
+  margin-bottom: 24px;
 }
-.apply-left-title em { font-style: italic; color: var(--coral); }
-.apply-left-body {
+.apply-body {
   font-size: 14px; font-weight: 300; color: var(--dim);
-  line-height: 1.75; max-width: 320px;
+  line-height: 1.85; max-width: 380px; margin-bottom: 40px;
 }
+.apply-points { display: flex; flex-direction: column; gap: 14px; }
+.apply-point {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 13px; font-weight: 300; color: var(--ghost);
+}
+.apply-point-icon { color: var(--coral); flex-shrink: 0; margin-top: 1px; }
 
-/* ── FORM ── */
+/* ── FORM CARD ── */
 .card {
-  width: 360px; flex-shrink: 0;
   background: var(--panel);
   border: 1px solid var(--border2);
-  border-radius: 16px;
-  padding: 28px 24px 24px;
+  border-radius: 20px; padding: 32px 28px 28px;
+  position: sticky; top: 80px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
 }
 .card-label {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ghost); margin-bottom: 20px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ghost);
 }
+.card-status {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.08em;
+  color: var(--coral);
+}
+.card-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--coral); animation: pulse 2s ease-in-out infinite; }
+
 .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
 .field label {
   font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
@@ -264,250 +465,165 @@ nav {
 .field input,
 .field textarea,
 .field select {
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 8px; color: var(--white);
+  background: var(--surface); border: 1px solid var(--border3);
+  border-radius: 10px; color: var(--white);
   font-family: var(--sans); font-size: 14px; font-weight: 300;
-  padding: 11px 13px; outline: none;
-  transition: border-color 0.2s;
+  padding: 12px 14px; outline: none;
+  transition: border-color 0.25s, background 0.25s;
   -webkit-appearance: none; appearance: none;
 }
 .field input::placeholder,
-.field textarea::placeholder { color: var(--ghost); }
+.field textarea::placeholder { color: rgba(237,233,244,0.18); }
 .field input:focus,
 .field textarea:focus,
-.field select:focus { border-color: var(--coral); }
-.field textarea { resize: none; height: 72px; }
-.field select option { background: #12121F; }
-.field-divider { height: 1px; background: var(--border2); margin: 14px 0; }
-.field-question {
-  font-size: 12px; font-weight: 300; color: var(--dim);
-  font-style: italic; margin-bottom: 8px; line-height: 1.5;
+.field select:focus {
+  border-color: var(--coral); background: rgba(255,92,122,0.03);
 }
-.btn {
+.field textarea { resize: none; height: 76px; }
+.field select option { background: #101020; }
+.field-rule { height: 1px; background: var(--border3); margin: 14px 0; }
+.field-q {
+  font-size: 12px; font-weight: 300; color: var(--dim);
+  font-style: italic; margin-bottom: 8px; line-height: 1.55;
+  font-family: var(--serif); font-size: 15px;
+}
+.form-btn {
   width: 100%; background: var(--coral); color: #fff;
   font-family: var(--sans); font-size: 13px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: lowercase;
-  border: none; border-radius: 8px; padding: 13px;
-  cursor: pointer; transition: opacity 0.2s, transform 0.15s; margin-top: 6px;
+  letter-spacing: 0.08em; text-transform: lowercase;
+  border: none; border-radius: 10px; padding: 14px;
+  cursor: pointer; transition: opacity 0.2s, transform 0.15s; margin-top: 8px;
 }
-.btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.btn:active { transform: none; }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.form-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.form-btn:active { transform: none; }
+.form-btn:disabled { opacity: 0.38; cursor: not-allowed; transform: none; }
 .fine-print {
   font-size: 11px; color: var(--ghost); text-align: center;
-  margin-top: 12px; line-height: 1.6;
+  margin-top: 12px; line-height: 1.7;
 }
+
+/* success */
 .success-state {
   display: none; flex-direction: column; align-items: center;
-  text-align: center; gap: 14px; padding: 12px 0 4px;
+  text-align: center; gap: 14px; padding: 16px 0 8px;
 }
-.success-icon {
-  width: 44px; height: 44px; border-radius: 50%;
+.success-ring {
+  width: 52px; height: 52px; border-radius: 50%;
   background: var(--coral3); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 22px; font-style: italic; color: var(--coral);
 }
-.success-title { font-size: 17px; font-weight: 300; }
-.success-sub { font-size: 13px; font-weight: 300; color: var(--dim); line-height: 1.6; max-width: 240px; }
+.success-title { font-family: var(--serif); font-size: 22px; font-weight: 300; font-style: italic; }
+.success-sub { font-size: 13px; font-weight: 300; color: var(--dim); line-height: 1.7; max-width: 250px; }
 
 /* ── MANIFESTO ── */
 .manifesto {
-  padding: 56px 0 48px; text-align: center;
-  border-top: 1px solid var(--border2);
+  max-width: 1100px; margin: 0 auto;
+  padding: 80px 32px 72px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  border-top: 1px solid var(--border3);
 }
-.manifesto p {
-  font-size: 14px; font-weight: 300; color: var(--ghost);
-  line-height: 2.2; letter-spacing: 0.01em;
+.manifesto-quote {
+  font-family: var(--serif); font-size: clamp(24px, 4vw, 40px);
+  font-weight: 300; font-style: italic; line-height: 1.45;
+  color: var(--dim); max-width: 640px; margin-bottom: 32px;
 }
-.manifesto p span { color: var(--dim); }
+.manifesto-quote em { color: var(--white); font-style: normal; }
 
 /* ── FOOTER ── */
 footer {
-  padding: 24px 0 36px; display: flex;
-  align-items: center; justify-content: center;
-  font-size: 11px; color: var(--ghost); letter-spacing: 0.1em;
-  border-top: 1px solid var(--border2);
+  border-top: 1px solid var(--border3);
+  padding: 28px 32px;
 }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ghost); }
+.footer-copy { font-size: 11px; letter-spacing: 0.12em; color: var(--faint); }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 720px) {
-  .apply-section { flex-direction: column; gap: 40px; }
-  .card { width: 100%; }
-  .stat-row { flex-wrap: wrap; }
-  .stat-block { flex: 1 1 33%; padding: 20px 12px; }
-  .step { grid-template-columns: 40px 1fr; gap: 0 18px; }
+@media (max-width: 900px) {
+  .step { grid-template-columns: 1fr; gap: 32px; }
+  .step.reverse .step-text { order: 1; }
+  .step.reverse .step-visual { order: 2; }
+  .step-visual { aspect-ratio: 16/9; }
+  .apply-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .card { position: static; }
+  .stats-inner { grid-template-columns: repeat(2,1fr); }
+  .stat-block:nth-child(2) { border-right: none; }
+  .stat-block:nth-child(3) { border-top: 1px solid var(--border3); }
+}
+@media (max-width: 600px) {
   .nav-toggle { display: none; }
+  .nav-inner { padding: 0 20px; }
+  .hero { padding: 100px 20px 64px; }
+  .section { padding: 72px 20px; }
+  .stats-inner { padding: 0 20px; }
+  .apply-wrap { padding: 72px 20px; }
+  .manifesto { padding: 64px 20px; }
+  footer { padding: 24px 20px; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .stat-block:nth-child(2) { border-right: none; }
+  .mobile-toggle {
+    display: flex !important;
+    margin: 0 auto 40px;
+  }
 }
-@media (max-width: 480px) {
-  .wrap { padding: 0 18px; }
-  .hero { padding: 64px 0 52px; }
-}
+.mobile-toggle { display: none; }
 </style>
 </head>
 <body>
 
 <div class="grain"></div>
-<div class="vignette"></div>
-<div class="glow-top"></div>
 
 <!-- NAV -->
-<nav>
+<nav id="nav">
   <div class="nav-inner">
     <span class="logo">tap in</span>
     <div class="nav-toggle" id="navToggle">
       <button class="nav-pill active" data-audience="members">members</button>
       <button class="nav-pill" data-audience="hosts">hosts</button>
     </div>
-    <span class="badge">private access</span>
+    <div class="nav-right">
+      <a class="nav-link" href="#how-it-works">how it works</a>
+      <span class="badge">private access</span>
+    </div>
   </div>
 </nav>
 
-<!-- WRAP -->
-<div class="wrap">
-
-  <!-- HERO -->
-  <section class="hero">
-    <p class="eyebrow">not an app. a frequency.</p>
-    <h1 class="headline">the room is already<br><em>full of people</em><br>you should meet.</h1>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow" id="heroEyebrow">not an app. a frequency.</p>
+    <h1 class="hero-headline" id="heroHeadline">
+      the room is full<br>of people<br>you should <span>meet.</span>
+    </h1>
     <p class="hero-sub" id="heroSub">walk in. see who's there. tap. if they tap back, you both know. zero rejection, zero awkwardness.</p>
-    <a class="hero-cta" href="#apply">request access →</a>
-  </section>
-
-  <!-- INFORMATIONAL SECTION -->
-  <section class="section-wrap">
-
-    <p class="section-label" id="secLabel">for members</p>
-    <h2 class="section-title" id="secTitle">built around<br>the <em>people in the room.</em></h2>
-
-    <!-- MEMBERS PANEL -->
-    <div class="audience active" id="panel-members">
-      <div class="steps">
-
-        <div class="step">
-          <span class="step-num">01</span>
-          <div class="step-content">
-            <h3 class="step-title">walk in.<br><em>see who's here.</em></h3>
-            <p class="step-body">scan the qr at the door, check in anonymously, and see a live grid of everyone else in the room — first name, vibe tags, how long they've been there.</p>
-            <ul class="step-bullets">
-              <li>no download required — runs in your browser</li>
-              <li>anonymous by default — you control what's visible</li>
-              <li>check-in expires after 90 min. the grid stays live.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">02</span>
-          <div class="step-content">
-            <h3 class="step-title">send a tap.<br><em>no one knows but you.</em></h3>
-            <p class="step-body">see someone you want to meet? tap them. your tap is completely anonymous — they won't see it unless they tap you back.</p>
-            <ul class="step-bullets">
-              <li>zero-risk signal — no public rejection</li>
-              <li>nothing visible until it's mutual</li>
-              <li>no unsolicited messages. ever.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">03</span>
-          <div class="step-content">
-            <h3 class="step-title">mutual tap.<br><em>then it gets interesting.</em></h3>
-            <p class="step-body">when it's mutual, you both find out at the same time. a chat unlocks. you can message, or just walk over — because now you both know.</p>
-            <ul class="step-bullets">
-              <li>real-time match notification</li>
-              <li>chat unlocks without sharing your number</li>
-              <li>the move is yours. we just made it easier.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">04</span>
-          <div class="step-content">
-            <h3 class="step-title">for the ones who<br><em>actually show up.</em></h3>
-            <p class="step-body">tap in isn't for everyone. access is reviewed. the people in the room chose to be here — same as you. that's what makes it work.</p>
-            <ul class="step-bullets">
-              <li>invite and application-based entry</li>
-              <li>active in 20+ nyc venues and growing</li>
-              <li>launching at select events and campuses</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
+    <div class="hero-actions">
+      <a href="#apply" class="btn-primary">request access →</a>
+      <a href="#how-it-works" class="btn-ghost">how it works</a>
     </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
 
-    <!-- HOSTS PANEL -->
-    <div class="audience" id="panel-hosts">
-      <div class="steps">
-
-        <div class="step">
-          <span class="step-num">01</span>
-          <div class="step-content">
-            <h3 class="step-title">know your room<br><em>in real time.</em></h3>
-            <p class="step-body">for the first time, you can see who's actually in your venue right now — not reservations, not estimates. real check-ins as they happen.</p>
-            <ul class="step-bullets">
-              <li>live headcount and check-in feed</li>
-              <li>crowd composition at a glance</li>
-              <li>dwell time and session heatmaps</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">02</span>
-          <div class="step-content">
-            <h3 class="step-title">setup takes<br><em>five minutes.</em></h3>
-            <p class="step-body">no hardware. no app for your staff. print a qr, put it at the door, and tap in does the rest. your venue analytics dashboard is live the moment the first guest checks in.</p>
-            <ul class="step-bullets">
-              <li>qr at entrance — nothing else required</li>
-              <li>real-time venue dashboard (web-based)</li>
-              <li>no integration with your POS or reservation system needed</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">03</span>
-          <div class="step-content">
-            <h3 class="step-title">your guests stay longer.<br><em>spend more. come back.</em></h3>
-            <p class="step-body">when people connect inside your venue, they stay. tap in drives meaningful dwell time and spend lift — not because we ask them to, but because they want to.</p>
-            <ul class="step-bullets">
-              <li>avg post-match spend increases measurably</li>
-              <li>send-a-drink mechanic integrated at launch</li>
-              <li>guest return rate tracked per venue</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="step">
-          <span class="step-num">04</span>
-          <div class="step-content">
-            <h3 class="step-title">data you've never<br><em>had before.</em></h3>
-            <p class="step-body">you've always known how much people spent. now you'll know how they moved, who they talked to, and what brought them back. the social layer of your venue, finally visible.</p>
-            <ul class="step-bullets">
-              <li>weekly venue analytics report</li>
-              <li>identify your highest-value nights and crowds</li>
-              <li>$499/mo — one good saturday pays for the month</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </section>
-
-  <!-- STATS -->
-  <div class="stat-row">
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-inner">
     <div class="stat-block">
-      <div class="stat-n">1,100+</div>
+      <div class="stat-n">1,100<sub>+</sub></div>
       <div class="stat-l">on the list</div>
     </div>
     <div class="stat-block">
@@ -515,156 +631,374 @@ footer {
       <div class="stat-l">nyc venues</div>
     </div>
     <div class="stat-block">
-      <div class="stat-n">96%</div>
+      <div class="stat-n">96<sub>%</sub></div>
       <div class="stat-l">said they never made the move</div>
     </div>
     <div class="stat-block">
-      <div class="stat-n">invite</div>
-      <div class="stat-l">only entry</div>
+      <div class="stat-n" style="font-style:normal;font-size:28px;font-family:var(--sans);font-weight:200;letter-spacing:0.04em">invite<br>only</div>
+      <div class="stat-l">reviewed access</div>
     </div>
   </div>
-
-  <!-- APPLY -->
-  <section class="apply-section" id="apply">
-    <div class="apply-left">
-      <p class="apply-left-label">request access</p>
-      <h2 class="apply-left-title">not everyone<br>gets in. <em>that's<br>the point.</em></h2>
-      <p class="apply-left-body">access is reviewed. we're rolling out to a small group in nyc first. if it's a fit, you'll hear from us before the next session.</p>
-    </div>
-
-    <div class="card">
-      <p class="card-label" id="formLabel">member application</p>
-
-      <form id="applyForm" novalidate>
-
-        <div class="field">
-          <label>your name</label>
-          <input type="text" id="fname" placeholder="first name" autocomplete="given-name" required/>
-        </div>
-        <div class="field">
-          <label>email</label>
-          <input type="email" id="email" placeholder="you@somewhere.com" autocomplete="email" required/>
-        </div>
-
-        <!-- Member fields (default) -->
-        <div id="memberFields">
-          <div class="field-divider"></div>
-          <p class="field-question">"what bar do you consider your living room?"</p>
-          <div class="field" style="margin-bottom:12px">
-            <input type="text" id="bar" placeholder="the place, the vibe, the whole thing"/>
-          </div>
-          <p class="field-question">"what do you add to a room?"</p>
-          <div class="field">
-            <textarea id="vibe" placeholder="energy, not drink orders."></textarea>
-          </div>
-        </div>
-
-        <!-- Host fields (hidden by default) -->
-        <div id="hostFields" style="display:none">
-          <div class="field-divider"></div>
-          <div class="field">
-            <label>venue name</label>
-            <input type="text" id="venue" placeholder="your spot"/>
-          </div>
-          <div class="field">
-            <label>role</label>
-            <select id="role">
-              <option value="" disabled selected>select one</option>
-              <option>owner / operator</option>
-              <option>general manager</option>
-              <option>promoter</option>
-              <option>event director</option>
-              <option>other</option>
-            </select>
-          </div>
-          <p class="field-question">"what's one thing you wish you knew about your room every night?"</p>
-          <div class="field">
-            <textarea id="hostQ" placeholder="be honest."></textarea>
-          </div>
-        </div>
-
-        <button class="btn" type="submit" id="submitBtn">request access →</button>
-        <p class="fine-print">we read every application. no spam, ever.</p>
-      </form>
-
-      <div class="success-state" id="successState">
-        <div class="success-icon">✦</div>
-        <p class="success-title">you're on the list.</p>
-        <p class="success-sub" id="successSub">we'll reach out before the next session in nyc.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- MANIFESTO -->
-  <div class="manifesto">
-    <p>
-      <span>for the ones who actually show up.</span><br>
-      the era of hoping they notice you is over.<br>
-      <span>you were both there. you just didn't know it yet.</span><br>
-      something is about to happen.
-    </p>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>tap in · nyc · 2026</footer>
-
 </div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works">
+
+  <!-- mobile toggle -->
+  <div class="nav-toggle mobile-toggle" id="mobileToggle">
+    <button class="nav-pill active" data-audience="members">members</button>
+    <button class="nav-pill" data-audience="hosts">hosts</button>
+  </div>
+
+  <div class="section-head">
+    <span class="section-label" id="secLabel">for members</span>
+    <h2 class="section-title" id="secTitle">
+      built around<br>the people in the room.
+      <span id="secSubtitle">four things that change the night.</span>
+    </h2>
+  </div>
+
+  <!-- MEMBERS -->
+  <div class="audience active" id="panel-members">
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-text">
+          <p class="step-num">01</p>
+          <h3 class="step-title">walk in.<br>see who's here.</h3>
+          <p class="step-body">scan the qr at the door, check in anonymously, and see a live grid of everyone else in the room — first name, vibe tags, how long they've been there. no download required.</p>
+          <ul class="step-bullets">
+            <li>runs in your browser — no app needed</li>
+            <li>anonymous by default</li>
+            <li>check-in expires in 90 min. grid stays live.</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-1">
+          <div class="mock-grid">
+            <div class="mock-card"><div class="mock-avatar">M</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+            <div class="mock-card"><div class="mock-avatar">J</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+            <div class="mock-card"><div class="mock-avatar">A</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+            <div class="mock-card"><div class="mock-avatar">S</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+            <div class="mock-card"><div class="mock-avatar">R</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+            <div class="mock-card"><div class="mock-avatar">K</div><div class="mock-name"></div><div class="mock-tag"></div></div>
+          </div>
+          <div class="mock-pulse"><div class="mock-dot"></div>23 in the room</div>
+        </div>
+      </div>
+
+      <div class="step reverse">
+        <div class="step-text">
+          <p class="step-num">02</p>
+          <h3 class="step-title">send a tap.<br>no one knows but you.</h3>
+          <p class="step-body">see someone you want to meet? tap them. it's completely anonymous — they won't see it unless they tap you back. no risk, no read receipts, no rejection.</p>
+          <ul class="step-bullets">
+            <li>zero public rejection</li>
+            <li>nothing visible until it's mutual</li>
+            <li>no unsolicited messages. ever.</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-2">
+          <div class="mock-tap">
+            <div class="mock-tap-ring"><div class="mock-tap-icon">✦</div></div>
+            <p class="mock-tap-label">tap to signal</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-text">
+          <p class="step-num">03</p>
+          <h3 class="step-title">mutual tap.<br>then it gets interesting.</h3>
+          <p class="step-body">when it's mutual, you both find out at the same time. a chat unlocks. you can message first — or just walk over, because now you both already know.</p>
+          <ul class="step-bullets">
+            <li>real-time match notification</li>
+            <li>chat unlocks without sharing your number</li>
+            <li>the move is yours. we just made it possible.</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-3">
+          <div class="mock-match">
+            <div class="mock-match-line">
+              <div class="mock-match-av">Y</div>
+              <div class="mock-match-spark">✦</div>
+              <div class="mock-match-av">M</div>
+            </div>
+            <div class="mock-match-badge">mutual tap</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reverse">
+        <div class="step-text">
+          <p class="step-num">04</p>
+          <h3 class="step-title">for the ones<br>who actually show up.</h3>
+          <p class="step-body">tap in isn't for everyone. access is reviewed. every person in the room chose to be there — same as you. the product only works because the people do.</p>
+          <ul class="step-bullets">
+            <li>invite and application-based entry</li>
+            <li>active in 20+ nyc venues</li>
+            <li>launching at select events and campuses</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-4">
+          <div class="mock-grid" style="grid-template-columns:repeat(2,1fr); gap:10px; padding:24px; align-content:center;">
+            <div class="mock-card" style="padding:16px 14px; gap:8px;">
+              <div style="font-size:11px;color:var(--coral);letter-spacing:.1em;font-family:var(--sans)">nyc</div>
+              <div style="font-size:13px;font-weight:300;font-family:var(--sans);color:var(--white)">20 venues</div>
+            </div>
+            <div class="mock-card" style="padding:16px 14px; gap:8px;">
+              <div style="font-size:11px;color:var(--coral);letter-spacing:.1em;font-family:var(--sans)">list</div>
+              <div style="font-size:13px;font-weight:300;font-family:var(--sans);color:var(--white)">1,100+</div>
+            </div>
+            <div class="mock-card" style="padding:16px 14px; gap:8px; grid-column:1/-1;">
+              <div style="font-size:11px;color:var(--ghost);letter-spacing:.1em;font-family:var(--sans)">next session</div>
+              <div style="font-size:13px;font-weight:300;font-family:var(--sans);color:var(--white)">nyc · session 001</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOSTS -->
+  <div class="audience" id="panel-hosts">
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-text">
+          <p class="step-num">01</p>
+          <h3 class="step-title">know your room<br>in real time.</h3>
+          <p class="step-body">for the first time, you can see who's actually in your venue — not reservations, not estimates. real check-ins as they happen. live headcount, crowd composition, dwell time.</p>
+          <ul class="step-bullets">
+            <li>live headcount and check-in feed</li>
+            <li>crowd composition at a glance</li>
+            <li>dwell time and session heatmaps</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-1">
+          <div class="mock-analytics">
+            <div class="mock-an-row"><span class="mock-an-label">live headcount</span><span class="mock-an-val up">47</span></div>
+            <div class="mock-an-row"><span class="mock-an-label">avg dwell time</span><span class="mock-an-val">2h 14m</span></div>
+            <div class="mock-an-row"><span class="mock-an-label">taps sent tonight</span><span class="mock-an-val up">31</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reverse">
+        <div class="step-text">
+          <p class="step-num">02</p>
+          <h3 class="step-title">setup takes<br>five minutes.</h3>
+          <p class="step-body">no hardware. no app for your staff. print a qr, put it at the door, and tap in does the rest. your venue analytics dashboard is live the moment the first guest checks in.</p>
+          <ul class="step-bullets">
+            <li>qr at entrance — nothing else required</li>
+            <li>real-time web dashboard</li>
+            <li>no POS or reservation integration needed</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-2">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+            <div style="width:80px;height:80px;background:var(--coral2);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;">⬛</div>
+            <p style="font-size:11px;letter-spacing:.14em;color:var(--ghost);font-family:var(--sans);">scan to check in</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-text">
+          <p class="step-num">03</p>
+          <h3 class="step-title">your guests stay longer,<br>spend more, come back.</h3>
+          <p class="step-body">when people connect inside your venue, they stay. tap in drives meaningful dwell time and spend lift — not because we push it, but because they want to.</p>
+          <ul class="step-bullets">
+            <li>post-match spend increases measurably</li>
+            <li>send-a-drink mechanic at launch</li>
+            <li>guest return rate tracked per venue</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-3">
+          <div class="mock-analytics" style="padding-top:18px;">
+            <div class="mock-bar-wrap" style="background:rgba(255,255,255,.02);border:1px solid var(--border3);border-radius:10px;padding:14px 14px 10px;">
+              <div style="font-size:10px;color:var(--ghost);letter-spacing:.12em;margin-bottom:10px;font-family:var(--sans)">weekly dwell avg</div>
+              <div class="mock-bar-row"><div class="mock-bar-day">mon</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:55%"></div></div></div>
+              <div class="mock-bar-row"><div class="mock-bar-day">tue</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:40%"></div></div></div>
+              <div class="mock-bar-row"><div class="mock-bar-day">wed</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:65%"></div></div></div>
+              <div class="mock-bar-row"><div class="mock-bar-day">thu</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:80%"></div></div></div>
+              <div class="mock-bar-row"><div class="mock-bar-day">fri</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:95%"></div></div></div>
+              <div class="mock-bar-row"><div class="mock-bar-day">sat</div><div class="mock-bar-track"><div class="mock-bar-fill" style="width:100%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reverse">
+        <div class="step-text">
+          <p class="step-num">04</p>
+          <h3 class="step-title">data you've<br>never had before.</h3>
+          <p class="step-body">you've always known how much people spent. now you'll know how they moved, who connected, and what made a great night. the social layer of your venue, finally visible.</p>
+          <ul class="step-bullets">
+            <li>weekly venue analytics report</li>
+            <li>identify your highest-value nights</li>
+            <li>$499/mo — one good saturday pays for the month</li>
+          </ul>
+        </div>
+        <div class="step-visual sv-4">
+          <div class="mock-analytics">
+            <div class="mock-an-row"><span class="mock-an-label">best night (this month)</span><span class="mock-an-val">fri oct 18</span></div>
+            <div class="mock-an-row"><span class="mock-an-label">connections made</span><span class="mock-an-val up">+47%</span></div>
+            <div class="mock-an-row"><span class="mock-an-label">return visit rate</span><span class="mock-an-val up">68%</span></div>
+            <div class="mock-an-row"><span class="mock-an-label">plan</span><span class="mock-an-val" style="color:var(--coral)">$499 / mo</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- APPLY -->
+<div class="apply-wrap" id="apply">
+  <div class="apply-left">
+    <p class="apply-label">request access</p>
+    <h2 class="apply-title">not everyone<br>gets in.<br>that's the point.</h2>
+    <p class="apply-body">access is reviewed. we're rolling out to a small group in nyc first. if it's a fit, you'll hear from us before the next session.</p>
+    <div class="apply-points">
+      <div class="apply-point"><span class="apply-point-icon">✦</span><span>every application is read by a human</span></div>
+      <div class="apply-point"><span class="apply-point-icon">✦</span><span>no spam, ever. one email when your spot opens.</span></div>
+      <div class="apply-point"><span class="apply-point-icon">✦</span><span>hosts get onboarded within the week</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-label" id="formLabel">member application</span>
+      <span class="card-status"><div class="card-dot"></div>accepting now</span>
+    </div>
+
+    <form id="applyForm" novalidate>
+      <div class="field">
+        <label>your name</label>
+        <input type="text" id="fname" placeholder="first name" autocomplete="given-name" required/>
+      </div>
+      <div class="field">
+        <label>email</label>
+        <input type="email" id="email" placeholder="you@somewhere.com" autocomplete="email" required/>
+      </div>
+
+      <div id="memberFields">
+        <div class="field-rule"></div>
+        <p class="field-q">"what bar do you consider your living room?"</p>
+        <div class="field" style="margin-bottom:12px">
+          <input type="text" id="bar" placeholder="the name, the vibe, the whole thing"/>
+        </div>
+        <p class="field-q">"what do you add to a room?"</p>
+        <div class="field">
+          <textarea id="vibe" placeholder="energy, not drink orders."></textarea>
+        </div>
+      </div>
+
+      <div id="hostFields" style="display:none">
+        <div class="field-rule"></div>
+        <div class="field">
+          <label>venue name</label>
+          <input type="text" id="venue" placeholder="your spot"/>
+        </div>
+        <div class="field">
+          <label>your role</label>
+          <select id="role">
+            <option value="" disabled selected>select one</option>
+            <option>owner / operator</option>
+            <option>general manager</option>
+            <option>promoter</option>
+            <option>event director</option>
+            <option>other</option>
+          </select>
+        </div>
+        <p class="field-q">"what's one thing you wish you knew about your room every night?"</p>
+        <div class="field">
+          <textarea id="hostQ" placeholder="be specific."></textarea>
+        </div>
+      </div>
+
+      <button class="form-btn" type="submit" id="submitBtn">request access →</button>
+      <p class="fine-print">we read every application. no spam, ever.</p>
+    </form>
+
+    <div class="success-state" id="successState">
+      <div class="success-ring">✦</div>
+      <p class="success-title">you're on the list.</p>
+      <p class="success-sub" id="successSub">we'll reach out before the next session in nyc.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <p class="manifesto-quote">
+    "you were both there.<br>you just <em>didn't know it yet.</em><br>we're fixing that."
+  </p>
+  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ghost)">tap in · nyc · 2026</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">tap in</span>
+    <span class="footer-copy">© 2026 tap in · private access</span>
+  </div>
+</footer>
 
 <script>
 (function () {
-  let currentAudience = 'members';
+  // nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
 
-  const pills     = document.querySelectorAll('.nav-pill');
-  const panels    = document.querySelectorAll('.audience');
-  const secLabel  = document.getElementById('secLabel');
-  const secTitle  = document.getElementById('secTitle');
-  const heroSub   = document.getElementById('heroSub');
-  const formLabel = document.getElementById('formLabel');
-  const mFields   = document.getElementById('memberFields');
-  const hFields   = document.getElementById('hostFields');
+  // audience toggle
+  let currentAudience = 'members';
+  const allPills = document.querySelectorAll('.nav-pill[data-audience]');
+  const panels   = document.querySelectorAll('.audience');
 
   const copy = {
     members: {
       secLabel: 'for members',
-      secTitle: 'built around<br>the <em>people in the room.</em>',
+      secTitle: 'built around<br>the people in the room.',
+      secSubtitle: 'four things that change the night.',
       heroSub: 'walk in. see who\'s there. tap. if they tap back, you both know. zero rejection, zero awkwardness.',
       formLabel: 'member application',
       successSub: 'we\'ll reach out before the next session in nyc.',
     },
     hosts: {
       secLabel: 'for hosts',
-      secTitle: 'finally know<br>what\'s <em>happening in your room.</em>',
-      heroSub: 'your guests are already here. tap in gives them a reason to stay, spend, and come back — and gives you data you\'ve never had.',
+      secTitle: 'finally know<br>what\'s happening in your room.',
+      secSubtitle: 'real data. zero new hardware.',
+      heroSub: 'your guests are already here. tap in gives them a reason to stay, spend more, and come back — and gives you data you\'ve never had.',
       formLabel: 'host application',
-      successSub: 'we\'ll be in touch. setup takes 5 minutes.',
+      successSub: 'we\'ll be in touch. setup takes five minutes.',
     }
   };
 
   function setAudience(aud) {
     currentAudience = aud;
-
-    pills.forEach(p => p.classList.toggle('active', p.dataset.audience === aud));
+    allPills.forEach(p => p.classList.toggle('active', p.dataset.audience === aud));
     panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + aud));
 
     const c = copy[aud];
-    secLabel.textContent  = c.secLabel;
-    secTitle.innerHTML    = c.secTitle;
-    heroSub.textContent   = c.heroSub;
-    formLabel.textContent = c.formLabel;
-    document.getElementById('successSub').textContent = c.successSub;
+    document.getElementById('secLabel').textContent    = c.secLabel;
+    document.getElementById('secTitle').innerHTML      = c.secTitle;
+    document.getElementById('secSubtitle').textContent = c.secSubtitle;
+    document.getElementById('heroSub').textContent     = c.heroSub;
+    document.getElementById('formLabel').textContent   = c.formLabel;
+    document.getElementById('successSub').textContent  = c.successSub;
 
-    if (aud === 'members') {
-      mFields.style.display = 'block';
-      hFields.style.display = 'none';
-    } else {
-      mFields.style.display = 'none';
-      hFields.style.display = 'block';
-    }
+    document.getElementById('memberFields').style.display = aud === 'members' ? 'block' : 'none';
+    document.getElementById('hostFields').style.display   = aud === 'hosts'   ? 'block' : 'none';
   }
 
-  pills.forEach(p => p.addEventListener('click', () => setAudience(p.dataset.audience)));
+  allPills.forEach(p => p.addEventListener('click', () => setAudience(p.dataset.audience)));
 
-  // Form submit
+  // form
   const form    = document.getElementById('applyForm');
   const btn     = document.getElementById('submitBtn');
   const success = document.getElementById('successState');
@@ -678,25 +1012,19 @@ footer {
     btn.disabled = true;
     btn.textContent = 'submitting...';
 
-    const payload = {
-      name, email,
-      audience: currentAudience,
-      source: 'landing-clean',
-      ts: new Date().toISOString()
-    };
+    const payload = { name, email, audience: currentAudience, source: 'landing-clean', ts: new Date().toISOString() };
     if (currentAudience === 'members') {
       payload.bar  = document.getElementById('bar').value.trim();
       payload.vibe = document.getElementById('vibe').value.trim();
     } else {
-      payload.venue  = document.getElementById('venue').value.trim();
-      payload.role   = document.getElementById('role').value;
-      payload.hostQ  = document.getElementById('hostQ').value.trim();
+      payload.venue = document.getElementById('venue').value.trim();
+      payload.role  = document.getElementById('role').value;
+      payload.hostQ = document.getElementById('hostQ').value.trim();
     }
 
     try {
       await fetch('https://api.tapin.vip/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
     } catch (_) {}
