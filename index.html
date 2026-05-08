@@ -4,33 +4,31 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>tap in — private access</title>
-<meta name="description" content="not an app. a frequency. request access."/>
+<meta name="description" content="not an app. a frequency. for members and hosts who are done missing each other."/>
 <meta property="og:title" content="tap in"/>
 <meta property="og:description" content="not an app. a frequency."/>
-<meta property="og:image" content="https://tapinofficial.github.io/tapin-landing-clean/og.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
-/* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --void:    #080810;
-  --surface: #0E0E1A;
-  --panel:   #12121F;
-  --border:  rgba(255,92,122,0.12);
-  --border2: rgba(255,255,255,0.06);
+  --surface: #0D0D1A;
+  --panel:   #11111E;
+  --panel2:  #15152A;
+  --border:  rgba(255,92,122,0.14);
+  --border2: rgba(255,255,255,0.07);
   --coral:   #FF5C7A;
-  --coral2:  rgba(255,92,122,0.18);
+  --coral2:  rgba(255,92,122,0.16);
   --coral3:  rgba(255,92,122,0.07);
   --white:   #F0EEF5;
-  --dim:     rgba(240,238,245,0.45);
-  --ghost:   rgba(240,238,245,0.18);
+  --dim:     rgba(240,238,245,0.50);
+  --ghost:   rgba(240,238,245,0.20);
   --sans: 'DM Sans', system-ui, sans-serif;
 }
 
 html { scroll-behavior: smooth; background: var(--void); }
-
 body {
   background: var(--void);
   color: var(--white);
@@ -44,41 +42,52 @@ body {
 
 /* ── ATMOSPHERE ── */
 .grain {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  opacity: 0.04;
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.038;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 128px;
 }
 .vignette {
   position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(8,8,16,0.7) 100%);
+  background: radial-gradient(ellipse 90% 70% at 50% 0%, transparent 20%, rgba(8,8,16,0.55) 100%);
 }
-.glow-orb {
-  position: fixed;
-  top: -200px; left: 50%; transform: translateX(-50%);
-  width: 700px; height: 500px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255,92,122,0.09) 0%, transparent 70%);
+.glow-top {
+  position: fixed; top: -180px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 500px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,92,122,0.08) 0%, transparent 65%);
   pointer-events: none; z-index: 0;
-}
-
-/* ── LAYOUT ── */
-.wrap {
-  position: relative; z-index: 2;
-  max-width: 480px; margin: 0 auto;
-  padding: 0 24px;
-  display: flex; flex-direction: column; align-items: center;
-  min-height: 100vh;
 }
 
 /* ── NAV ── */
 nav {
-  width: 100%;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 28px 0 0;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,8,16,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border2);
 }
-.logo {
-  font-size: 13px; font-weight: 500; letter-spacing: 0.18em;
-  text-transform: lowercase; color: var(--white);
+.nav-inner {
+  max-width: 900px; margin: 0 auto; padding: 0 24px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: lowercase; }
+
+.nav-toggle {
+  display: flex; align-items: center;
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 3px;
+  gap: 2px;
+}
+.nav-pill {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: lowercase;
+  padding: 5px 14px; border-radius: 16px;
+  cursor: pointer; border: none; background: transparent;
+  color: var(--ghost); font-family: var(--sans);
+  transition: all 0.2s;
+}
+.nav-pill.active {
+  background: var(--coral); color: #fff;
 }
 .badge {
   font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
@@ -88,214 +97,255 @@ nav {
   background: var(--coral3);
 }
 
-/* ── HERO ── */
-.hero {
-  flex: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center;
-  padding: 80px 0 60px;
-  gap: 0;
+/* ── WRAP ── */
+.wrap {
+  position: relative; z-index: 2;
+  max-width: 900px; margin: 0 auto;
+  padding: 0 24px;
 }
 
+/* ── HERO ── */
+.hero {
+  padding: 90px 0 72px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+}
 .eyebrow {
   font-size: 11px; font-weight: 400; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--coral);
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.1s forwards;
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
 }
-
 .headline {
-  font-size: clamp(36px, 9vw, 52px);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--white);
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.25s forwards;
+  font-size: clamp(38px, 7vw, 64px); font-weight: 300;
+  line-height: 1.08; letter-spacing: -0.025em;
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.7s ease 0.22s forwards;
 }
-.headline em {
-  font-style: italic;
-  color: var(--coral);
+.headline em { font-style: italic; color: var(--coral); }
+.hero-sub {
+  font-size: 16px; font-weight: 300; color: var(--dim);
+  line-height: 1.7; max-width: 400px; margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.7s ease 0.34s forwards;
 }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--coral); color: #fff;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: lowercase;
+  padding: 12px 24px; border-radius: 8px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  opacity: 0; animation: fadeUp 0.7s ease 0.46s forwards;
+}
+.hero-cta:hover { opacity: 0.88; transform: translateY(-1px); }
 
-.sub {
-  font-size: 15px; font-weight: 300; color: var(--dim);
-  line-height: 1.7; max-width: 340px;
+/* ── SECTION HEADER ── */
+.section-wrap {
+  padding: 80px 0 0;
+  opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
+}
+.section-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ghost);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(26px, 4vw, 38px); font-weight: 300;
+  line-height: 1.2; letter-spacing: -0.02em;
   margin-bottom: 56px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+.section-title em { font-style: italic; color: var(--coral); }
+
+/* ── AUDIENCE PANELS ── */
+.audience { display: none; }
+.audience.active { display: block; }
+
+/* ── FEATURE STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 0; }
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0 28px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border2);
+  position: relative;
+}
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
+  color: var(--coral); padding-top: 4px;
+  text-transform: uppercase;
+}
+.step-content { display: flex; flex-direction: column; gap: 10px; }
+.step-title {
+  font-size: 22px; font-weight: 300; letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+.step-title em { font-style: italic; color: var(--coral); }
+.step-body {
+  font-size: 14px; font-weight: 300; color: var(--dim);
+  line-height: 1.75; max-width: 480px;
+}
+.step-bullets {
+  list-style: none; display: flex; flex-direction: column; gap: 7px;
+  margin-top: 4px;
+}
+.step-bullets li {
+  font-size: 13px; font-weight: 300; color: var(--ghost);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.step-bullets li::before {
+  content: '—'; color: var(--coral); font-weight: 300; flex-shrink: 0; margin-top: 1px;
 }
 
-/* ── FORM CARD ── */
+/* ── STAT ROW ── */
+.stat-row {
+  display: flex; gap: 0; padding: 64px 0;
+  border-top: 1px solid var(--border2);
+  margin-top: 56px;
+}
+.stat-block {
+  flex: 1; text-align: center; padding: 0 24px;
+  border-right: 1px solid var(--border2);
+}
+.stat-block:last-child { border-right: none; }
+.stat-n {
+  font-size: 36px; font-weight: 200; color: var(--white);
+  letter-spacing: -0.03em; line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-l {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ghost);
+}
+
+/* ── APPLY SECTION ── */
+.apply-section {
+  padding: 80px 0 60px;
+  display: flex; gap: 60px;
+  align-items: flex-start;
+}
+.apply-left { flex: 1; padding-top: 8px; }
+.apply-left-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ghost); margin-bottom: 14px;
+}
+.apply-left-title {
+  font-size: clamp(24px, 3.5vw, 34px); font-weight: 300;
+  letter-spacing: -0.02em; line-height: 1.2;
+  margin-bottom: 16px;
+}
+.apply-left-title em { font-style: italic; color: var(--coral); }
+.apply-left-body {
+  font-size: 14px; font-weight: 300; color: var(--dim);
+  line-height: 1.75; max-width: 320px;
+}
+
+/* ── FORM ── */
 .card {
-  width: 100%;
+  width: 360px; flex-shrink: 0;
   background: var(--panel);
   border: 1px solid var(--border2);
   border-radius: 16px;
-  padding: 32px 28px 28px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.55s forwards;
+  padding: 28px 24px 24px;
 }
-
 .card-label {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ghost);
-  margin-bottom: 20px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ghost); margin-bottom: 20px;
 }
-
-.field-group {
-  display: flex; flex-direction: column; gap: 10px;
-  margin-bottom: 16px;
-}
-
-.field {
-  display: flex; flex-direction: column; gap: 6px;
-}
-
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
 .field label {
   font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
   text-transform: lowercase; color: var(--ghost);
 }
-
 .field input,
-.field select,
-.field textarea {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  color: var(--white);
-  font-family: var(--sans);
-  font-size: 14px; font-weight: 300;
-  padding: 12px 14px;
-  outline: none;
+.field textarea,
+.field select {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 8px; color: var(--white);
+  font-family: var(--sans); font-size: 14px; font-weight: 300;
+  padding: 11px 13px; outline: none;
   transition: border-color 0.2s;
-  -webkit-appearance: none;
-  appearance: none;
+  -webkit-appearance: none; appearance: none;
 }
 .field input::placeholder,
 .field textarea::placeholder { color: var(--ghost); }
 .field input:focus,
-.field select:focus,
-.field textarea:focus {
-  border-color: var(--coral);
-}
-.field select option { background: #1a1a2e; }
-.field textarea { resize: none; height: 80px; }
-
-.divider {
-  height: 1px; background: var(--border2);
-  margin: 20px 0;
-}
-
+.field textarea:focus,
+.field select:focus { border-color: var(--coral); }
+.field textarea { resize: none; height: 72px; }
+.field select option { background: #12121F; }
+.field-divider { height: 1px; background: var(--border2); margin: 14px 0; }
 .field-question {
-  font-size: 13px; font-weight: 300; color: var(--dim);
-  font-style: italic; margin-bottom: 8px;
-  line-height: 1.5;
+  font-size: 12px; font-weight: 300; color: var(--dim);
+  font-style: italic; margin-bottom: 8px; line-height: 1.5;
 }
-
 .btn {
-  width: 100%;
-  background: var(--coral);
-  color: #fff;
-  font-family: var(--sans);
-  font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: lowercase;
-  border: none; border-radius: 8px;
-  padding: 14px;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
-  margin-top: 8px;
+  width: 100%; background: var(--coral); color: #fff;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: lowercase;
+  border: none; border-radius: 8px; padding: 13px;
+  cursor: pointer; transition: opacity 0.2s, transform 0.15s; margin-top: 6px;
 }
-.btn:hover { opacity: 0.9; transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
+.btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn:active { transform: none; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
 .fine-print {
   font-size: 11px; color: var(--ghost); text-align: center;
-  margin-top: 14px; line-height: 1.6;
+  margin-top: 12px; line-height: 1.6;
 }
-
-/* ── SUCCESS STATE ── */
 .success-state {
-  display: none;
-  flex-direction: column; align-items: center;
-  text-align: center; gap: 16px; padding: 12px 0 4px;
+  display: none; flex-direction: column; align-items: center;
+  text-align: center; gap: 14px; padding: 12px 0 4px;
 }
 .success-icon {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: var(--coral3);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--coral3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
-.success-title {
-  font-size: 18px; font-weight: 300; color: var(--white);
-}
-.success-sub {
-  font-size: 13px; font-weight: 300; color: var(--dim);
-  line-height: 1.6; max-width: 260px;
-}
-
-/* ── STATS ROW ── */
-.stats {
-  display: flex; gap: 32px; align-items: center;
-  padding: 36px 0 16px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.7s forwards;
-}
-.stat { text-align: center; }
-.stat-n {
-  font-size: 22px; font-weight: 300; color: var(--white);
-  letter-spacing: -0.02em;
-}
-.stat-l {
-  font-size: 10px; font-weight: 400; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ghost);
-  margin-top: 2px;
-}
-.stats-sep { width: 1px; height: 32px; background: var(--border2); }
+.success-title { font-size: 17px; font-weight: 300; }
+.success-sub { font-size: 13px; font-weight: 300; color: var(--dim); line-height: 1.6; max-width: 240px; }
 
 /* ── MANIFESTO ── */
 .manifesto {
-  padding: 48px 0 20px;
-  text-align: center;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.85s forwards;
+  padding: 56px 0 48px; text-align: center;
+  border-top: 1px solid var(--border2);
 }
 .manifesto p {
-  font-size: 13px; font-weight: 300; color: var(--ghost);
-  line-height: 2.0; letter-spacing: 0.01em;
+  font-size: 14px; font-weight: 300; color: var(--ghost);
+  line-height: 2.2; letter-spacing: 0.01em;
 }
 .manifesto p span { color: var(--dim); }
 
 /* ── FOOTER ── */
 footer {
-  width: 100%;
-  padding: 24px 0 32px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: var(--ghost);
-  letter-spacing: 0.1em;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 1s forwards;
+  padding: 24px 0 36px; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 11px; color: var(--ghost); letter-spacing: 0.1em;
   border-top: 1px solid var(--border2);
-  margin-top: 8px;
 }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── MOBILE ── */
-@media (max-width: 400px) {
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .apply-section { flex-direction: column; gap: 40px; }
+  .card { width: 100%; }
+  .stat-row { flex-wrap: wrap; }
+  .stat-block { flex: 1 1 33%; padding: 20px 12px; }
+  .step { grid-template-columns: 40px 1fr; gap: 0 18px; }
+  .nav-toggle { display: none; }
+}
+@media (max-width: 480px) {
   .wrap { padding: 0 18px; }
-  .card { padding: 24px 20px 20px; }
-  .stats { gap: 20px; }
+  .hero { padding: 64px 0 52px; }
 }
 </style>
 </head>
@@ -303,89 +353,255 @@ footer {
 
 <div class="grain"></div>
 <div class="vignette"></div>
-<div class="glow-orb"></div>
+<div class="glow-top"></div>
 
-<div class="wrap">
-
-  <!-- NAV -->
-  <nav>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
     <span class="logo">tap in</span>
+    <div class="nav-toggle" id="navToggle">
+      <button class="nav-pill active" data-audience="members">members</button>
+      <button class="nav-pill" data-audience="hosts">hosts</button>
+    </div>
     <span class="badge">private access</span>
-  </nav>
+  </div>
+</nav>
+
+<!-- WRAP -->
+<div class="wrap">
 
   <!-- HERO -->
   <section class="hero">
     <p class="eyebrow">not an app. a frequency.</p>
-    <h1 class="headline">the room<br>is already<br><em>full of people</em><br>you should meet.</h1>
-    <p class="sub">you were both there. you just didn't know it yet. we're fixing that.</p>
+    <h1 class="headline">the room is already<br><em>full of people</em><br>you should meet.</h1>
+    <p class="hero-sub" id="heroSub">walk in. see who's there. tap. if they tap back, you both know. zero rejection, zero awkwardness.</p>
+    <a class="hero-cta" href="#apply">request access →</a>
+  </section>
 
-    <!-- FORM CARD -->
-    <div class="card" id="card">
+  <!-- INFORMATIONAL SECTION -->
+  <section class="section-wrap">
 
-      <p class="card-label">request access</p>
+    <p class="section-label" id="secLabel">for members</p>
+    <h2 class="section-title" id="secTitle">built around<br>the <em>people in the room.</em></h2>
 
-      <form id="applyForm" novalidate>
-        <div class="field-group">
-          <div class="field">
-            <label>your name</label>
-            <input type="text" id="name" placeholder="first name" autocomplete="given-name" required/>
+    <!-- MEMBERS PANEL -->
+    <div class="audience active" id="panel-members">
+      <div class="steps">
+
+        <div class="step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h3 class="step-title">walk in.<br><em>see who's here.</em></h3>
+            <p class="step-body">scan the qr at the door, check in anonymously, and see a live grid of everyone else in the room — first name, vibe tags, how long they've been there.</p>
+            <ul class="step-bullets">
+              <li>no download required — runs in your browser</li>
+              <li>anonymous by default — you control what's visible</li>
+              <li>check-in expires after 90 min. the grid stays live.</li>
+            </ul>
           </div>
-          <div class="field">
-            <label>email</label>
-            <input type="email" id="email" placeholder="you@somewhere.com" autocomplete="email" required/>
+        </div>
+
+        <div class="step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h3 class="step-title">send a tap.<br><em>no one knows but you.</em></h3>
+            <p class="step-body">see someone you want to meet? tap them. your tap is completely anonymous — they won't see it unless they tap you back.</p>
+            <ul class="step-bullets">
+              <li>zero-risk signal — no public rejection</li>
+              <li>nothing visible until it's mutual</li>
+              <li>no unsolicited messages. ever.</li>
+            </ul>
           </div>
         </div>
 
-        <div class="divider"></div>
-
-        <p class="field-question">"what bar do you consider your living room?"</p>
-        <div class="field" style="margin-bottom:14px">
-          <input type="text" id="bar" placeholder="the name, the vibe, the whole thing"/>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h3 class="step-title">mutual tap.<br><em>then it gets interesting.</em></h3>
+            <p class="step-body">when it's mutual, you both find out at the same time. a chat unlocks. you can message, or just walk over — because now you both know.</p>
+            <ul class="step-bullets">
+              <li>real-time match notification</li>
+              <li>chat unlocks without sharing your number</li>
+              <li>the move is yours. we just made it easier.</li>
+            </ul>
+          </div>
         </div>
 
-        <p class="field-question">"what do you add to a room?"</p>
-        <div class="field" style="margin-bottom:6px">
-          <textarea id="vibe" placeholder="we mean energy, not drinks."></textarea>
+        <div class="step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <h3 class="step-title">for the ones who<br><em>actually show up.</em></h3>
+            <p class="step-body">tap in isn't for everyone. access is reviewed. the people in the room chose to be here — same as you. that's what makes it work.</p>
+            <ul class="step-bullets">
+              <li>invite and application-based entry</li>
+              <li>active in 20+ nyc venues and growing</li>
+              <li>launching at select events and campuses</li>
+            </ul>
+          </div>
         </div>
 
-        <button class="btn" type="submit" id="submitBtn">request access →</button>
-        <p class="fine-print">access is reviewed. not everyone gets in. that's the point.</p>
-      </form>
-
-      <!-- SUCCESS -->
-      <div class="success-state" id="successState">
-        <div class="success-icon">✦</div>
-        <p class="success-title">you're on the list.</p>
-        <p class="success-sub">we review every application. if it's a fit, you'll hear from us before the next session.</p>
       </div>
-
     </div>
+
+    <!-- HOSTS PANEL -->
+    <div class="audience" id="panel-hosts">
+      <div class="steps">
+
+        <div class="step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h3 class="step-title">know your room<br><em>in real time.</em></h3>
+            <p class="step-body">for the first time, you can see who's actually in your venue right now — not reservations, not estimates. real check-ins as they happen.</p>
+            <ul class="step-bullets">
+              <li>live headcount and check-in feed</li>
+              <li>crowd composition at a glance</li>
+              <li>dwell time and session heatmaps</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h3 class="step-title">setup takes<br><em>five minutes.</em></h3>
+            <p class="step-body">no hardware. no app for your staff. print a qr, put it at the door, and tap in does the rest. your venue analytics dashboard is live the moment the first guest checks in.</p>
+            <ul class="step-bullets">
+              <li>qr at entrance — nothing else required</li>
+              <li>real-time venue dashboard (web-based)</li>
+              <li>no integration with your POS or reservation system needed</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h3 class="step-title">your guests stay longer.<br><em>spend more. come back.</em></h3>
+            <p class="step-body">when people connect inside your venue, they stay. tap in drives meaningful dwell time and spend lift — not because we ask them to, but because they want to.</p>
+            <ul class="step-bullets">
+              <li>avg post-match spend increases measurably</li>
+              <li>send-a-drink mechanic integrated at launch</li>
+              <li>guest return rate tracked per venue</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <h3 class="step-title">data you've never<br><em>had before.</em></h3>
+            <p class="step-body">you've always known how much people spent. now you'll know how they moved, who they talked to, and what brought them back. the social layer of your venue, finally visible.</p>
+            <ul class="step-bullets">
+              <li>weekly venue analytics report</li>
+              <li>identify your highest-value nights and crowds</li>
+              <li>$499/mo — one good saturday pays for the month</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </section>
 
   <!-- STATS -->
-  <div class="stats">
-    <div class="stat">
+  <div class="stat-row">
+    <div class="stat-block">
       <div class="stat-n">1,100+</div>
       <div class="stat-l">on the list</div>
     </div>
-    <div class="stats-sep"></div>
-    <div class="stat">
+    <div class="stat-block">
       <div class="stat-n">20</div>
-      <div class="stat-l">NYC venues</div>
+      <div class="stat-l">nyc venues</div>
     </div>
-    <div class="stats-sep"></div>
-    <div class="stat">
+    <div class="stat-block">
+      <div class="stat-n">96%</div>
+      <div class="stat-l">said they never made the move</div>
+    </div>
+    <div class="stat-block">
       <div class="stat-n">invite</div>
       <div class="stat-l">only entry</div>
     </div>
   </div>
+
+  <!-- APPLY -->
+  <section class="apply-section" id="apply">
+    <div class="apply-left">
+      <p class="apply-left-label">request access</p>
+      <h2 class="apply-left-title">not everyone<br>gets in. <em>that's<br>the point.</em></h2>
+      <p class="apply-left-body">access is reviewed. we're rolling out to a small group in nyc first. if it's a fit, you'll hear from us before the next session.</p>
+    </div>
+
+    <div class="card">
+      <p class="card-label" id="formLabel">member application</p>
+
+      <form id="applyForm" novalidate>
+
+        <div class="field">
+          <label>your name</label>
+          <input type="text" id="fname" placeholder="first name" autocomplete="given-name" required/>
+        </div>
+        <div class="field">
+          <label>email</label>
+          <input type="email" id="email" placeholder="you@somewhere.com" autocomplete="email" required/>
+        </div>
+
+        <!-- Member fields (default) -->
+        <div id="memberFields">
+          <div class="field-divider"></div>
+          <p class="field-question">"what bar do you consider your living room?"</p>
+          <div class="field" style="margin-bottom:12px">
+            <input type="text" id="bar" placeholder="the place, the vibe, the whole thing"/>
+          </div>
+          <p class="field-question">"what do you add to a room?"</p>
+          <div class="field">
+            <textarea id="vibe" placeholder="energy, not drink orders."></textarea>
+          </div>
+        </div>
+
+        <!-- Host fields (hidden by default) -->
+        <div id="hostFields" style="display:none">
+          <div class="field-divider"></div>
+          <div class="field">
+            <label>venue name</label>
+            <input type="text" id="venue" placeholder="your spot"/>
+          </div>
+          <div class="field">
+            <label>role</label>
+            <select id="role">
+              <option value="" disabled selected>select one</option>
+              <option>owner / operator</option>
+              <option>general manager</option>
+              <option>promoter</option>
+              <option>event director</option>
+              <option>other</option>
+            </select>
+          </div>
+          <p class="field-question">"what's one thing you wish you knew about your room every night?"</p>
+          <div class="field">
+            <textarea id="hostQ" placeholder="be honest."></textarea>
+          </div>
+        </div>
+
+        <button class="btn" type="submit" id="submitBtn">request access →</button>
+        <p class="fine-print">we read every application. no spam, ever.</p>
+      </form>
+
+      <div class="success-state" id="successState">
+        <div class="success-icon">✦</div>
+        <p class="success-title">you're on the list.</p>
+        <p class="success-sub" id="successSub">we'll reach out before the next session in nyc.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- MANIFESTO -->
   <div class="manifesto">
     <p>
       <span>for the ones who actually show up.</span><br>
       the era of hoping they notice you is over.<br>
-      <span>something is about to happen.</span>
+      <span>you were both there. you just didn't know it yet.</span><br>
+      something is about to happen.
     </p>
   </div>
 
@@ -396,47 +612,99 @@ footer {
 
 <script>
 (function () {
-  const form = document.getElementById('applyForm');
-  const btn  = document.getElementById('submitBtn');
+  let currentAudience = 'members';
+
+  const pills     = document.querySelectorAll('.nav-pill');
+  const panels    = document.querySelectorAll('.audience');
+  const secLabel  = document.getElementById('secLabel');
+  const secTitle  = document.getElementById('secTitle');
+  const heroSub   = document.getElementById('heroSub');
+  const formLabel = document.getElementById('formLabel');
+  const mFields   = document.getElementById('memberFields');
+  const hFields   = document.getElementById('hostFields');
+
+  const copy = {
+    members: {
+      secLabel: 'for members',
+      secTitle: 'built around<br>the <em>people in the room.</em>',
+      heroSub: 'walk in. see who\'s there. tap. if they tap back, you both know. zero rejection, zero awkwardness.',
+      formLabel: 'member application',
+      successSub: 'we\'ll reach out before the next session in nyc.',
+    },
+    hosts: {
+      secLabel: 'for hosts',
+      secTitle: 'finally know<br>what\'s <em>happening in your room.</em>',
+      heroSub: 'your guests are already here. tap in gives them a reason to stay, spend, and come back — and gives you data you\'ve never had.',
+      formLabel: 'host application',
+      successSub: 'we\'ll be in touch. setup takes 5 minutes.',
+    }
+  };
+
+  function setAudience(aud) {
+    currentAudience = aud;
+
+    pills.forEach(p => p.classList.toggle('active', p.dataset.audience === aud));
+    panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + aud));
+
+    const c = copy[aud];
+    secLabel.textContent  = c.secLabel;
+    secTitle.innerHTML    = c.secTitle;
+    heroSub.textContent   = c.heroSub;
+    formLabel.textContent = c.formLabel;
+    document.getElementById('successSub').textContent = c.successSub;
+
+    if (aud === 'members') {
+      mFields.style.display = 'block';
+      hFields.style.display = 'none';
+    } else {
+      mFields.style.display = 'none';
+      hFields.style.display = 'block';
+    }
+  }
+
+  pills.forEach(p => p.addEventListener('click', () => setAudience(p.dataset.audience)));
+
+  // Form submit
+  const form    = document.getElementById('applyForm');
+  const btn     = document.getElementById('submitBtn');
   const success = document.getElementById('successState');
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-
-    const name  = document.getElementById('name').value.trim();
+    const name  = document.getElementById('fname').value.trim();
     const email = document.getElementById('email').value.trim();
-
-    if (!name || !email) {
-      document.getElementById(!name ? 'name' : 'email').focus();
-      return;
-    }
+    if (!name || !email) { document.getElementById(!name ? 'fname' : 'email').focus(); return; }
 
     btn.disabled = true;
     btn.textContent = 'submitting...';
 
+    const payload = {
+      name, email,
+      audience: currentAudience,
+      source: 'landing-clean',
+      ts: new Date().toISOString()
+    };
+    if (currentAudience === 'members') {
+      payload.bar  = document.getElementById('bar').value.trim();
+      payload.vibe = document.getElementById('vibe').value.trim();
+    } else {
+      payload.venue  = document.getElementById('venue').value.trim();
+      payload.role   = document.getElementById('role').value;
+      payload.hostQ  = document.getElementById('hostQ').value.trim();
+    }
+
     try {
-      // Submit to Supabase waitlist or your existing endpoint
-      // Swap this URL for your actual Supabase function or form endpoint
       await fetch('https://api.tapin.vip/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          bar:  document.getElementById('bar').value.trim(),
-          vibe: document.getElementById('vibe').value.trim(),
-          source: 'landing-clean',
-          ts: new Date().toISOString()
-        })
+        body: JSON.stringify(payload)
       });
-    } catch (_) {
-      // silently continue — form UX > API failure
-    }
+    } catch (_) {}
 
-    // Show success regardless (capture locally if API fails)
     form.style.display = 'none';
     success.style.display = 'flex';
   });
+
 })();
 </script>
 
