@@ -10,441 +10,141 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--black:#000000;--warm:#F5F0E8;--gold:#C9A96E;
+--mid:rgba(245,240,232,0.50);--dim:rgba(245,240,232,0.28);
+--rule:rgba(255,255,255,0.07);--rule2:rgba(255,255,255,0.08);
+--serif:'Cormorant',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;background:var(--black)}
+body{background:var(--black);color:var(--warm);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-:root {
-  --black:  #000000;
-  --ink:    #0A0A0A;
-  --white:  #FFFFFF;
-  --warm:   #F5F0E8;
-  --mid:    rgba(245,240,232,0.50);
-  --dim:    rgba(245,240,232,0.28);
-  --ghost:  rgba(245,240,232,0.14);
-  --rule:   rgba(245,240,232,0.10);
-  --gold:   #C9A96E;
-  --gold2:  rgba(201,169,110,0.15);
-  --serif: 'Cormorant', Georgia, serif;
-  --sans:  'DM Sans', system-ui, sans-serif;
-}
+.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
 
-html { scroll-behavior: smooth; background: var(--black); }
-body {
-  background: var(--black);
-  color: var(--warm);
-  font-family: var(--sans);
-  font-size: 15px; line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;transition:background 0.4s,backdrop-filter 0.4s}
+nav.scrolled{background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-logo{font-family:var(--serif);font-style:italic;font-weight:300;font-size:22px;color:var(--warm);text-decoration:none}
+.nav-toggle{display:flex;border:1px solid var(--rule2);border-radius:20px;overflow:hidden;padding:3px}
+.nav-toggle button{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;padding:6px 20px;border:none;border-radius:16px;cursor:pointer;transition:all 0.3s;background:transparent;color:rgba(245,240,232,0.35)}
+.nav-toggle button.active{background:#fff;color:#000}
+.nav-right{display:flex;align-items:center;gap:28px}
+.nav-right a.dim-link{font-size:12px;font-weight:300;color:rgba(245,240,232,0.40);text-decoration:none;letter-spacing:0.06em;transition:color 0.3s}
+.nav-right a.dim-link:hover{color:var(--warm)}
+.nav-right a.cta-btn{font-size:11px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,0.35);border-radius:2px;padding:8px 20px;text-decoration:none;transition:all 0.3s}
+.nav-right a.cta-btn:hover{background:rgba(201,169,110,0.08);border-color:rgba(201,169,110,0.6)}
 
-/* ── GRAIN ── */
-.grain {
-  position: fixed; inset: 0; z-index: 10; pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px;
-  mix-blend-mode: overlay;
-}
+.hero{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.95) 100%)}
+.hero-content{position:relative;z-index:2;max-width:860px;padding:0 56px 88px}
+.hero-eyebrow{font-family:var(--sans);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+.hero h1{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(60px,10vw,108px);line-height:0.9;letter-spacing:-0.01em;color:#fff}
+.hero h1 .dim{color:rgba(245,240,232,0.45)}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(245,240,232,0.52);max-width:400px;margin-top:24px;line-height:1.7}
+.hero-ctas{display:flex;align-items:center;gap:28px;margin-top:36px}
+.btn-white{display:inline-block;background:#fff;color:#000;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:14px 32px;border:none;border-radius:2px;text-decoration:none;cursor:pointer;transition:opacity 0.3s}
+.btn-white:hover{opacity:0.85}
+.hero-ctas .dim-link{font-size:13px;font-weight:300;color:rgba(245,240,232,0.40);text-decoration:none;transition:color 0.3s}
+.hero-ctas .dim-link:hover{color:var(--warm)}
+.scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2}
+.scroll-indicator .line{width:1px;height:40px;background:var(--gold)}
+.scroll-indicator span{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)}
 
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 0 48px; height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  transition: background 0.5s;
-}
-nav.dark {
-  background: rgba(0,0,0,0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--rule);
-}
-.logo {
-  font-family: var(--serif); font-size: 22px; font-weight: 300;
-  font-style: italic; letter-spacing: 0.04em; color: var(--white);
-  text-decoration: none;
-}
-.nav-center {
-  position: absolute; left: 50%; transform: translateX(-50%);
-}
-.toggle {
-  display: flex; align-items: center;
-  border: 1px solid var(--rule); border-radius: 24px;
-  padding: 3px; gap: 2px;
-}
-.t-pill {
-  font-size: 11px; font-weight: 400; letter-spacing: 0.12em;
-  text-transform: lowercase; padding: 5px 18px; border-radius: 20px;
-  cursor: pointer; border: none; background: transparent;
-  color: var(--dim); font-family: var(--sans); transition: all 0.25s;
-}
-.t-pill.on { background: var(--white); color: var(--black); }
-.nav-right {
-  display: flex; align-items: center; gap: 24px;
-}
-.nav-link {
-  font-size: 11px; font-weight: 300; letter-spacing: 0.14em;
-  text-transform: lowercase; color: var(--dim);
-  text-decoration: none; transition: color 0.2s;
-}
-.nav-link:hover { color: var(--white); }
-.nav-cta {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: lowercase; color: var(--gold);
-  border: 1px solid rgba(201,169,110,0.3); border-radius: 20px;
-  padding: 6px 16px; text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-}
-.nav-cta:hover { background: var(--gold); color: var(--black); }
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.stats .cell{padding:48px 0;text-align:center;border-right:1px solid var(--rule)}
+.stats .cell:last-child{border-right:none}
+.stats .num{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(32px,4vw,48px);color:var(--gold);margin-bottom:8px}
+.stats .num.text-style{font-family:var(--sans);font-weight:200;font-size:clamp(18px,2.5vw,26px);letter-spacing:0.04em}
+.stats .lbl{font-size:10px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.28)}
 
-/* ── HERO ── */
-.hero {
-  position: relative; min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: flex-end; padding: 0 48px 80px;
-  overflow: hidden;
-}
-.hero-photo {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1800&auto=format&fit=crop&q=80')
-    center center / cover no-repeat;
-}
-.hero-photo::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.2) 0%,
-    rgba(0,0,0,0.1) 30%,
-    rgba(0,0,0,0.5) 65%,
-    rgba(0,0,0,0.92) 100%
-  );
-}
-.hero-inner {
-  position: relative; z-index: 2;
-  max-width: 900px; width: 100%;
-  display: flex; flex-direction: column; align-items: flex-start;
-}
-.hero-tag {
-  font-size: 10px; font-weight: 400; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--gold);
-  margin-bottom: 20px;
-  opacity: 0; animation: up 1s ease 0.1s forwards;
-}
-.hero-h {
-  font-family: var(--serif); font-weight: 300;
-  font-size: clamp(56px, 9vw, 110px);
-  line-height: 0.92; letter-spacing: -0.02em;
-  color: var(--white); margin-bottom: 28px;
-  opacity: 0; animation: up 1s ease 0.25s forwards;
-}
-.hero-h em { font-style: italic; color: rgba(245,240,232,0.7); }
-.hero-sub {
-  font-size: 15px; font-weight: 300; color: var(--mid);
-  max-width: 420px; line-height: 1.8; margin-bottom: 40px;
-  opacity: 0; animation: up 1s ease 0.4s forwards;
-}
-.hero-row {
-  display: flex; align-items: center; gap: 20px;
-  opacity: 0; animation: up 1s ease 0.55s forwards;
-}
-.btn-apply {
-  font-family: var(--sans); font-size: 12px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: lowercase;
-  color: var(--black); background: var(--white);
-  border: none; border-radius: 4px; padding: 14px 32px;
-  text-decoration: none; cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
-}
-.btn-apply:hover { opacity: 0.88; transform: translateY(-1px); }
-.btn-how {
-  font-size: 12px; font-weight: 300; letter-spacing: 0.14em;
-  text-transform: lowercase; color: var(--mid); text-decoration: none;
-  transition: color 0.2s;
-}
-.btn-how:hover { color: var(--white); }
-.scroll-indicator {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2;
-  opacity: 0; animation: up 1s ease 1.1s forwards;
-}
-.scroll-bar { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
-.scroll-txt { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); }
+.triptych{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0}
+.triptych img{width:100%;height:300px;object-fit:cover;display:block;filter:brightness(0.65) contrast(1.1) saturate(0.7);transition:filter 0.5s}
+.triptych img:hover{filter:brightness(0.8) contrast(1.1) saturate(0.7)}
 
-/* ── STRIP ── */
-.strip {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.strip-item {
-  padding: 44px 32px;
-  border-right: 1px solid var(--rule); text-align: center;
-}
-.strip-item:last-child { border-right: none; }
-.strip-n {
-  font-family: var(--serif); font-size: 48px; font-weight: 300; font-style: italic;
-  color: var(--white); line-height: 1; margin-bottom: 8px;
-}
-.strip-n sup { font-size: 22px; vertical-align: super; }
-.strip-l {
-  font-size: 10px; font-weight: 300; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--dim);
-}
+.how{max-width:1100px;margin:0 auto;padding:96px 48px}
+.section-kicker{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.section-title{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-0.01em;margin-bottom:64px}
 
-/* ── SECTION ── */
-.section { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
-.sec-kicker {
-  font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 16px;
-}
-.sec-h {
-  font-family: var(--serif); font-size: clamp(34px, 5vw, 58px);
-  font-weight: 300; font-style: italic; line-height: 1.1;
-  color: var(--white); margin-bottom: 64px;
-}
+.step{display:grid;grid-template-columns:1fr 1fr;gap:88px;padding:64px 0;border-bottom:1px solid rgba(255,255,255,0.06);align-items:center}
+.step.reverse .step-copy{order:2}
+.step.reverse .step-photo{order:1}
+.step-num{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+.step-title{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(28px,3.5vw,44px);line-height:1.1;letter-spacing:-0.01em;color:#fff;margin-bottom:20px}
+.step-body{font-size:14px;font-weight:300;color:rgba(245,240,232,0.52);line-height:1.85;max-width:400px;margin-bottom:20px}
+.step-bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+.step-bullets li{font-size:13px;font-weight:300;color:rgba(245,240,232,0.45);line-height:1.6}
+.step-bullets li::before{content:'— ';color:var(--gold)}
+.step-photo{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:2px}
+.step-photo img{width:100%;height:100%;object-fit:cover;filter:brightness(0.7) contrast(1.05) saturate(0.75)}
+.step-photo .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 50%)}
+.step-photo .chip{position:absolute;bottom:16px;left:16px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:2px;padding:8px 14px;font-size:12px;font-weight:300;color:rgba(245,240,232,0.8)}
+.chip .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-/* ── MOBILE TOGGLE ── */
-.mob-toggle { display: none; }
+.mobile-toggle{display:none;justify-content:center;margin-bottom:48px}
 
-/* ── PANELS ── */
-.panel { display: none; }
-.panel.on { display: block; }
+.apply{max-width:1100px;margin:0 auto;padding:96px 48px}
+.apply-grid{display:grid;grid-template-columns:1fr 380px;gap:80px;align-items:start}
+.apply-left .body-text{font-size:14px;font-weight:300;color:rgba(245,240,232,0.52);line-height:1.85;margin:24px 0 32px;max-width:440px}
+.apply-bullets{list-style:none;display:flex;flex-direction:column;gap:14px}
+.apply-bullets li{font-size:14px;font-weight:300;color:rgba(245,240,232,0.52);line-height:1.6}
+.apply-bullets li::before{content:'✦ ';color:var(--gold)}
+.apply-card{background:#0C0C0C;border:1px solid var(--rule2);border-radius:2px;padding:32px 28px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.card-header .card-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim)}
+.card-header .accepting{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)}
+.card-header .accepting .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.field input,.field select{width:100%;background:#161616;border:1px solid rgba(255,255,255,0.07);border-radius:2px;padding:12px 14px;color:var(--warm);font-family:var(--sans);font-size:14px;font-weight:300;outline:none;transition:border-color 0.3s;appearance:none;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:rgba(201,169,110,0.4)}
+.field input::placeholder{color:rgba(245,240,232,0.2)}
+.card-rule{height:1px;background:rgba(255,255,255,0.07);margin:24px 0}
+.screening-q{font-family:var(--serif);font-style:italic;font-weight:300;font-size:15px;color:rgba(245,240,232,0.7);margin-bottom:10px}
+.btn-submit{width:100%;background:#fff;color:#000;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;padding:16px;border:none;border-radius:2px;cursor:pointer;transition:opacity 0.3s;margin-top:8px}
+.btn-submit:hover{opacity:0.85}
+.fine-print{font-size:11px;color:var(--dim);text-align:center;margin-top:14px}
+.form-success{display:none;text-align:center;padding:48px 0}
+.form-success .check{font-size:28px;color:var(--gold);margin-bottom:16px}
+.form-success h3{font-family:var(--serif);font-style:italic;font-weight:300;font-size:28px;margin-bottom:12px}
+.form-success p{font-size:13px;color:var(--mid);max-width:260px;margin:0 auto;line-height:1.7}
 
-/* ── STEPS ── */
-.steps { display: flex; flex-direction: column; gap: 0; }
-.step {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-  padding: 64px 0; border-bottom: 1px solid var(--rule);
-  align-items: center;
-}
-.step:last-child { border-bottom: none; }
-.step.flip .step-copy { order: 2; }
-.step.flip .step-img  { order: 1; }
+.quote-section{position:relative;padding:120px 48px;text-align:center;overflow:hidden}
+.quote-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1506377295352-e3154d43ea9e?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat;filter:brightness(0.25)}
+.quote-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5)}
+.quote-section blockquote{position:relative;z-index:2;font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(28px,5vw,56px);line-height:1.15;letter-spacing:-0.01em;color:#fff;max-width:800px;margin:0 auto 24px}
+.quote-section .attribution{position:relative;z-index:2;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)}
 
-.step-num {
-  font-size: 10px; letter-spacing: 0.2em; color: var(--dim);
-  text-transform: uppercase; margin-bottom: 14px;
-}
-.step-title {
-  font-family: var(--serif); font-size: clamp(28px, 3.5vw, 42px);
-  font-weight: 300; font-style: italic; line-height: 1.1;
-  color: var(--white); margin-bottom: 16px;
-}
-.step-body {
-  font-size: 14px; font-weight: 300; color: var(--mid);
-  line-height: 1.85; max-width: 400px; margin-bottom: 20px;
-}
-.step-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.step-list li {
-  display: flex; gap: 10px; font-size: 13px;
-  font-weight: 300; color: var(--dim); line-height: 1.5;
-}
-.step-list li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+footer{border-top:1px solid var(--rule);padding:28px 48px;display:flex;align-items:center;justify-content:space-between}
+footer .foot-logo{font-family:var(--serif);font-style:italic;font-weight:300;font-size:18px;color:var(--warm);text-decoration:none}
+footer .copy{font-size:11px;color:var(--dim)}
+footer a.foot-link{font-size:11px;color:var(--dim);text-decoration:none;transition:color 0.3s}
+footer a.foot-link:hover{color:var(--warm)}
 
-/* ── STEP IMAGE ── */
-.step-img {
-  border-radius: 2px; overflow: hidden; aspect-ratio: 4/3;
-  position: relative;
-}
-.step-img img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  filter: brightness(0.75) contrast(1.05);
-  transition: filter 0.4s;
-}
-.step-img:hover img { filter: brightness(0.85) contrast(1.05); }
-/* overlay with mock UI */
-.step-overlay {
-  position: absolute; inset: 0;
-  display: flex; align-items: flex-end; padding: 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
-}
-.chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(0,0,0,0.72); border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px; padding: 6px 14px;
-  font-size: 11px; font-weight: 300; letter-spacing: 0.08em;
-  color: rgba(245,240,232,0.9); font-family: var(--sans);
-  backdrop-filter: blur(8px);
-}
-.chip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: blink 2s ease-in-out infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-/* ── PHOTO GRID ── */
-.photo-strip {
-  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2px;
-  overflow: hidden;
-}
-.photo-strip img {
-  width: 100%; height: 280px; object-fit: cover; display: block;
-  filter: brightness(0.7) contrast(1.05) saturate(0.8);
-  transition: filter 0.4s;
-}
-.photo-strip img:hover { filter: brightness(0.85) contrast(1.05) saturate(0.9); }
-.photo-strip img:first-child { height: 280px; }
-
-/* ── APPLY ── */
-.apply-wrap {
-  max-width: 1100px; margin: 0 auto; padding: 100px 48px;
-  display: grid; grid-template-columns: 1fr 400px; gap: 80px; align-items: start;
-}
-.apply-copy {}
-.apply-kicker { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-.apply-h {
-  font-family: var(--serif); font-size: clamp(36px, 5vw, 60px);
-  font-weight: 300; font-style: italic; line-height: 1.05;
-  color: var(--white); margin-bottom: 24px;
-}
-.apply-body { font-size: 14px; font-weight: 300; color: var(--mid); line-height: 1.85; margin-bottom: 36px; max-width: 360px; }
-.apply-notes { display: flex; flex-direction: column; gap: 12px; }
-.apply-note {
-  display: flex; align-items: flex-start; gap: 10px;
-  font-size: 12px; font-weight: 300; color: var(--dim);
-}
-.apply-note-dot { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
-
-/* ── CARD ── */
-.card {
-  background: #0D0D0D; border: 1px solid var(--rule); border-radius: 2px;
-  padding: 32px 28px 28px; position: sticky; top: 84px;
-}
-.card-top {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 20px; border-bottom: 1px solid var(--rule);
-}
-.card-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
-.card-live {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 10px; letter-spacing: 0.1em; color: var(--gold);
-}
-.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: blink 2s ease-in-out infinite; }
-
-.field { margin-bottom: 12px; }
-.field label {
-  display: block; font-size: 10px; font-weight: 300; letter-spacing: 0.14em;
-  text-transform: lowercase; color: var(--dim); margin-bottom: 6px;
-}
-.field input,
-.field textarea,
-.field select {
-  width: 100%; background: #161616; border: 1px solid rgba(245,240,232,0.08);
-  border-radius: 2px; color: var(--warm);
-  font-family: var(--sans); font-size: 14px; font-weight: 300;
-  padding: 12px 14px; outline: none;
-  transition: border-color 0.2s;
-  -webkit-appearance: none; appearance: none;
-}
-.field input::placeholder,
-.field textarea::placeholder { color: rgba(245,240,232,0.16); }
-.field input:focus,
-.field textarea:focus,
-.field select:focus { border-color: rgba(201,169,110,0.5); }
-.field textarea { resize: none; height: 74px; }
-.field select option { background: #0D0D0D; }
-.field-rule { height: 1px; background: var(--rule); margin: 16px 0; }
-.field-q {
-  font-family: var(--serif); font-size: 15px; font-weight: 300; font-style: italic;
-  color: var(--mid); line-height: 1.5; margin-bottom: 8px;
-}
-.sub-btn {
-  width: 100%; background: var(--white); color: var(--black);
-  font-family: var(--sans); font-size: 12px; font-weight: 500;
-  letter-spacing: 0.16em; text-transform: lowercase;
-  border: none; border-radius: 2px; padding: 15px;
-  cursor: pointer; transition: opacity 0.2s, transform 0.15s; margin-top: 8px;
-}
-.sub-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.sub-btn:active { transform: none; }
-.sub-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
-.fine {
-  font-size: 11px; color: var(--dim); text-align: center;
-  margin-top: 12px; line-height: 1.7;
-}
-
-/* success */
-.success {
-  display: none; flex-direction: column; align-items: center;
-  text-align: center; gap: 16px; padding: 16px 0 8px;
-}
-.success-mark {
-  font-family: var(--serif); font-size: 36px; font-style: italic;
-  color: var(--gold);
-}
-.success-h { font-family: var(--serif); font-size: 24px; font-weight: 300; font-style: italic; }
-.success-p { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.7; max-width: 240px; }
-
-/* ── QUOTE ── */
-.quote-section {
-  position: relative; overflow: hidden;
-  padding: 120px 48px;
-  text-align: center;
-}
-.quote-bg {
-  position: absolute; inset: 0;
-  background: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1800&auto=format&fit=crop&q=80') center/cover;
-  filter: brightness(0.2) saturate(0.6);
-}
-.quote-bg::after {
-  content: ''; position: absolute; inset: 0;
-  background: rgba(0,0,0,0.55);
-}
-.quote-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
-.quote-text {
-  font-family: var(--serif); font-size: clamp(28px, 4.5vw, 52px);
-  font-weight: 300; font-style: italic; line-height: 1.35;
-  color: var(--white); margin-bottom: 28px;
-}
-.quote-attr {
-  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold);
-}
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--rule);
-  padding: 32px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.foot-logo { font-family: var(--serif); font-size: 18px; font-style: italic; color: var(--dim); }
-.foot-copy { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245,240,232,0.18); }
-.foot-link { font-size: 11px; color: var(--dim); text-decoration: none; letter-spacing: 0.1em; }
-.foot-link:hover { color: var(--white); }
-
-/* ── ANIMATIONS ── */
-@keyframes up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  nav { padding: 0 24px; }
-  .nav-center { display: none; }
-  .mob-toggle {
-    display: flex; margin: 0 auto 40px;
-    border: 1px solid var(--rule); border-radius: 24px; padding: 3px; gap: 2px;
-  }
-  .hero { padding: 0 24px 64px; }
-  .strip { grid-template-columns: repeat(2,1fr); }
-  .strip-item:nth-child(2) { border-right: none; }
-  .strip-item:nth-child(3) { border-top: 1px solid var(--rule); }
-  .section { padding: 72px 24px; }
-  .step { grid-template-columns: 1fr; gap: 32px; padding: 48px 0; }
-  .step.flip .step-copy { order: 1; }
-  .step.flip .step-img  { order: 2; }
-  .step-img { aspect-ratio: 16/9; }
-  .photo-strip { grid-template-columns: 1fr 1fr; }
-  .photo-strip img { height: 200px; }
-  .photo-strip img:first-child { grid-column: 1/-1; height: 200px; }
-  .apply-wrap { grid-template-columns: 1fr; gap: 48px; padding: 72px 24px; }
-  .card { position: static; }
-  .quote-section { padding: 80px 24px; }
-  footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
-}
-@media (max-width: 480px) {
-  .strip { grid-template-columns: 1fr 1fr; }
-  .hero-h { font-size: 48px; }
+@media(max-width:900px){
+nav{padding:0 24px}
+.nav-toggle-desktop{display:none}
+.nav-right a.dim-link{display:none}
+.mobile-toggle{display:flex}
+.hero-content{padding:0 28px 72px;text-align:center;max-width:100%}
+.hero-sub{margin-left:auto;margin-right:auto}
+.hero-ctas{justify-content:center}
+.scroll-indicator{display:none}
+.stats{grid-template-columns:1fr 1fr}
+.stats .cell{border-right:none}
+.stats .cell:nth-child(odd){border-right:1px solid var(--rule)}
+.stats .cell:nth-child(1),.stats .cell:nth-child(2){border-bottom:1px solid var(--rule)}
+.triptych{grid-template-columns:1fr;gap:0}
+.triptych img{height:200px}
+.how{padding:72px 24px}
+.step{grid-template-columns:1fr;gap:40px}
+.step.reverse .step-copy{order:1}
+.step.reverse .step-photo{order:2}
+.apply{padding:72px 24px}
+.apply-grid{grid-template-columns:1fr;gap:48px}
+.quote-section{padding:80px 24px}
+footer{padding:20px 24px;flex-wrap:wrap;gap:12px;justify-content:center}
 }
 </style>
 </head>
@@ -452,389 +152,275 @@ footer {
 
 <div class="grain"></div>
 
-<!-- NAV -->
 <nav id="nav">
-  <a class="logo" href="#">tap in</a>
-  <div class="nav-center">
-    <div class="toggle" id="deskToggle">
-      <button class="t-pill on" data-aud="members">members</button>
-      <button class="t-pill" data-aud="hosts">hosts</button>
-    </div>
-  </div>
-  <div class="nav-right">
-    <a class="nav-link" href="#how">how it works</a>
-    <a class="nav-cta" href="#apply">request access</a>
-  </div>
+<a href="#" class="nav-logo">tap in</a>
+<div class="nav-toggle nav-toggle-desktop">
+<button class="active" data-mode="members" onclick="setMode('members')">Members</button>
+<button data-mode="hosts" onclick="setMode('hosts')">Hosts</button>
+</div>
+<div class="nav-right">
+<a href="#how" class="dim-link">how it works</a>
+<a href="#apply" class="cta-btn">request access</a>
+</div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-photo"></div>
-  <div class="hero-inner">
-    <p class="hero-tag">private access · nyc 2026</p>
-    <h1 class="hero-h">the room<br>is already full<br>of people<br><em>you should meet.</em></h1>
-    <p class="hero-sub" id="heroSub">walk in. see who's there. tap. if they tap back, you both know. zero rejection, zero awkwardness.</p>
-    <div class="hero-row">
-      <a href="#apply" class="btn-apply">request access</a>
-      <a href="#how" class="btn-how">how it works ↓</a>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <div class="scroll-bar"></div>
-    <span class="scroll-txt">scroll</span>
-  </div>
+<div class="hero-bg"></div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<p class="hero-eyebrow">private access · nyc 2026</p>
+<h1>the room is<br>already full of<br><span class="dim">people you should meet.</span></h1>
+<p class="hero-sub" id="hero-sub">walk in. see who's there. tap. if they tap back, you both know. zero rejection, zero awkwardness.</p>
+<div class="hero-ctas">
+<a href="#apply" class="btn-white">request access</a>
+<a href="#how" class="dim-link">how it works ↓</a>
+</div>
+</div>
+<div class="scroll-indicator">
+<div class="line"></div>
+<span>scroll</span>
+</div>
 </section>
 
-<!-- STRIP -->
-<div class="strip">
-  <div class="strip-item">
-    <div class="strip-n">1,100<sup>+</sup></div>
-    <div class="strip-l">on the list</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-n">20</div>
-    <div class="strip-l">nyc venues</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-n">96<sup>%</sup></div>
-    <div class="strip-l">said they never made the move</div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-n" style="font-family:var(--sans);font-size:22px;font-style:normal;font-weight:200;letter-spacing:0.04em;line-height:1.4">invite<br>only</div>
-    <div class="strip-l">reviewed access</div>
-  </div>
-</div>
-
-<!-- PHOTO STRIP -->
-<div class="photo-strip">
-  <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=900&auto=format&fit=crop&q=75" alt=""/>
-  <img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=600&auto=format&fit=crop&q=75" alt=""/>
-  <img src="https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?w=600&auto=format&fit=crop&q=75" alt=""/>
-</div>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
-
-  <!-- mobile toggle -->
-  <div class="toggle mob-toggle" id="mobToggle">
-    <button class="t-pill on" data-aud="members">members</button>
-    <button class="t-pill" data-aud="hosts">hosts</button>
-  </div>
-
-  <p class="sec-kicker" id="secKicker">for members</p>
-  <h2 class="sec-h" id="secH">built around<br>the people in the room.</h2>
-
-  <!-- MEMBERS -->
-  <div class="panel on" id="panel-members">
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-copy">
-          <p class="step-num">01 — check in</p>
-          <h3 class="step-title">walk in.<br>see who's here.</h3>
-          <p class="step-body">scan the qr at the door, check in anonymously, and see a live grid of everyone else in the room. first name, vibe tags, how long they've been there. no download required.</p>
-          <ul class="step-list">
-            <li>runs in your browser — no app to install</li>
-            <li>anonymous by default. you control visibility.</li>
-            <li>check-in expires in 90 min. grid stays live.</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&auto=format&fit=crop&q=80" alt="venue interior"/>
-          <div class="step-overlay">
-            <div class="chip"><div class="chip-dot"></div>23 in the room</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step flip">
-        <div class="step-copy">
-          <p class="step-num">02 — tap</p>
-          <h3 class="step-title">send a signal.<br>no one knows but you.</h3>
-          <p class="step-body">see someone you want to meet? tap them. completely anonymous — they won't see it unless they tap you back. zero risk, zero rejection, zero read receipts.</p>
-          <ul class="step-list">
-            <li>nothing visible until it's mutual</li>
-            <li>no unsolicited messages. ever.</li>
-            <li>the floor is always yours.</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop&q=80" alt="bar scene"/>
-          <div class="step-overlay">
-            <div class="chip">tap sent ✦</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-copy">
-          <p class="step-num">03 — match</p>
-          <h3 class="step-title">mutual tap.<br>then it gets interesting.</h3>
-          <p class="step-body">when it's mutual, you both find out at the same time. a chat unlocks instantly. you can message first — or just walk over, because now you both already know.</p>
-          <ul class="step-list">
-            <li>real-time match notification</li>
-            <li>chat opens without sharing your number</li>
-            <li>the move is yours. we just made it possible.</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80" alt="nightlife"/>
-          <div class="step-overlay">
-            <div class="chip">mutual match ✦</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step flip">
-        <div class="step-copy">
-          <p class="step-num">04 — access</p>
-          <h3 class="step-title">for the ones who<br>actually show up.</h3>
-          <p class="step-body">tap in isn't for everyone. access is reviewed. every person in the room chose to be there — same as you. that's what makes it work.</p>
-          <ul class="step-list">
-            <li>invite and application-based entry</li>
-            <li>active at 20+ nyc venues</li>
-            <li>launching at select events and campuses</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&auto=format&fit=crop&q=80" alt="exclusive event"/>
-          <div class="step-overlay">
-            <div class="chip">session 001 · nyc</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- HOSTS -->
-  <div class="panel" id="panel-hosts">
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-copy">
-          <p class="step-num">01 — visibility</p>
-          <h3 class="step-title">know your room<br>in real time.</h3>
-          <p class="step-body">for the first time, you can see who's actually in your venue — not reservations, not guesses. real check-ins, live headcount, crowd composition as it happens.</p>
-          <ul class="step-list">
-            <li>live headcount and check-in feed</li>
-            <li>crowd composition at a glance</li>
-            <li>dwell time and session heatmaps</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&auto=format&fit=crop&q=80" alt="venue"/>
-          <div class="step-overlay">
-            <div class="chip"><div class="chip-dot"></div>47 checked in</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step flip">
-        <div class="step-copy">
-          <p class="step-num">02 — setup</p>
-          <h3 class="step-title">five minutes.<br>that's it.</h3>
-          <p class="step-body">no hardware. no staff training. print a qr, put it at the door, and tap in does the rest. your dashboard is live the moment the first guest checks in.</p>
-          <ul class="step-list">
-            <li>qr at entrance — nothing else required</li>
-            <li>real-time web dashboard, any device</li>
-            <li>no POS or reservation system needed</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop&q=80" alt="bar"/>
-          <div class="step-overlay">
-            <div class="chip">setup complete</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-copy">
-          <p class="step-num">03 — revenue</p>
-          <h3 class="step-title">guests stay longer.<br>spend more. come back.</h3>
-          <p class="step-body">when people connect inside your venue, they stay. tap in drives measurable spend lift and return rates — not because we push it, because they want to.</p>
-          <ul class="step-list">
-            <li>post-match spend increases measurably</li>
-            <li>send-a-drink mechanic included at launch</li>
-            <li>guest return rate tracked per venue</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80" alt="nightlife"/>
-          <div class="step-overlay">
-            <div class="chip">↑ dwell time this week</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step flip">
-        <div class="step-copy">
-          <p class="step-num">04 — data</p>
-          <h3 class="step-title">data you've<br>never had before.</h3>
-          <p class="step-body">you've always known how much people spent. now you'll know how they moved, who connected, what drove the best nights. the social layer of your venue, finally visible.</p>
-          <ul class="step-list">
-            <li>weekly venue analytics report</li>
-            <li>identify your highest-value nights</li>
-            <li>$499/mo — one good saturday covers the month</li>
-          </ul>
-        </div>
-        <div class="step-img">
-          <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&auto=format&fit=crop&q=80" alt="event"/>
-          <div class="step-overlay">
-            <div class="chip">68% return rate</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
+<section class="stats">
+<div class="cell"><div class="num">1,100+</div><div class="lbl">on the list</div></div>
+<div class="cell"><div class="num">20</div><div class="lbl">nyc venues</div></div>
+<div class="cell"><div class="num">96%</div><div class="lbl">said they never made the move</div></div>
+<div class="cell"><div class="num text-style">invite only</div><div class="lbl">reviewed access</div></div>
 </section>
 
-<!-- APPLY -->
-<div class="apply-wrap" id="apply">
-  <div class="apply-copy">
-    <p class="apply-kicker">request access</p>
-    <h2 class="apply-h">not everyone<br>gets in.<br>that's the point.</h2>
-    <p class="apply-body">access is reviewed. we're rolling out to a small group in nyc first. if it's a fit, you'll hear from us before the next session.</p>
-    <div class="apply-notes">
-      <div class="apply-note"><span class="apply-note-dot">✦</span><span>every application is read by a human</span></div>
-      <div class="apply-note"><span class="apply-note-dot">✦</span><span>one email when your spot opens. no spam, ever.</span></div>
-      <div class="apply-note"><span class="apply-note-dot">✦</span><span>hosts onboarded within the week</span></div>
-    </div>
-  </div>
+<section class="triptych">
+<img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=1000&auto=format&fit=crop&q=75" alt="Nightlife"/>
+<img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=600&auto=format&fit=crop&q=75" alt="Bar scene"/>
+<img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&auto=format&fit=crop&q=75" alt="Social"/>
+</section>
 
-  <div class="card">
-    <div class="card-top">
-      <span class="card-label" id="cardLabel">member application</span>
-      <span class="card-live"><div class="live-dot"></div>accepting now</span>
-    </div>
+<section class="how" id="how">
+<div class="mobile-toggle">
+<div class="nav-toggle">
+<button class="active" data-mode="members" onclick="setMode('members')">Members</button>
+<button data-mode="hosts" onclick="setMode('hosts')">Hosts</button>
+</div>
+</div>
+<p class="section-kicker" id="how-kicker">how it works</p>
+<h2 class="section-title" id="how-title">the experience</h2>
 
-    <form id="form" novalidate>
-      <div class="field">
-        <label>name</label>
-        <input id="fname" type="text" placeholder="first name" autocomplete="given-name" required/>
-      </div>
-      <div class="field">
-        <label>email</label>
-        <input id="email" type="email" placeholder="you@somewhere.com" autocomplete="email" required/>
-      </div>
-
-      <div id="mFields">
-        <div class="field-rule"></div>
-        <p class="field-q">"what bar do you consider your living room?"</p>
-        <div class="field"><input id="bar" type="text" placeholder="the name, the vibe, the whole thing"/></div>
-        <p class="field-q">"what do you add to a room?"</p>
-        <div class="field"><textarea id="vibe" placeholder="energy, not drink orders."></textarea></div>
-      </div>
-
-      <div id="hFields" style="display:none">
-        <div class="field-rule"></div>
-        <div class="field">
-          <label>venue name</label>
-          <input id="venue" type="text" placeholder="your spot"/>
-        </div>
-        <div class="field">
-          <label>your role</label>
-          <select id="role">
-            <option value="" disabled selected>select one</option>
-            <option>owner / operator</option>
-            <option>general manager</option>
-            <option>promoter</option>
-            <option>event director</option>
-            <option>other</option>
-          </select>
-        </div>
-        <p class="field-q">"what's one thing you wish you knew about your room every night?"</p>
-        <div class="field"><textarea id="hostQ" placeholder="be specific."></textarea></div>
-      </div>
-
-      <button class="sub-btn" id="subBtn" type="submit">request access →</button>
-      <p class="fine">we read every application. no spam, ever.</p>
-    </form>
-
-    <div class="success" id="successState">
-      <div class="success-mark">✦</div>
-      <p class="success-h">you're on the list.</p>
-      <p class="success-p" id="successP">we'll reach out before the next session in nyc.</p>
-    </div>
-  </div>
+<div id="steps-container">
+<div class="step">
+<div class="step-copy">
+<p class="step-num">01 —</p>
+<h3 class="step-title s-title">walk in. see who's here.</h3>
+<p class="step-body s-body">scan the qr at the door. a live, anonymous grid shows who's checked in — no app download, no profiles to swipe through.</p>
+<ul class="step-bullets s-bullets">
+<li>scan at door, instant access</li>
+<li>anonymous grid — first name and photo only</li>
+<li>no app install required</li>
+</ul>
+</div>
+<div class="step-photo">
+<img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&auto=format&fit=crop&q=80" alt="Walk in"/>
+<div class="overlay"></div>
+<div class="chip"><span class="dot"></span> 23 in the room</div>
+</div>
 </div>
 
-<!-- QUOTE / CLOSER -->
-<div class="quote-section">
-  <div class="quote-bg"></div>
-  <div class="quote-inner">
-    <p class="quote-text">"you were both there.<br>you just didn't know it yet."</p>
-    <p class="quote-attr">tap in · not an app. a frequency.</p>
-  </div>
+<div class="step reverse">
+<div class="step-copy">
+<p class="step-num">02 —</p>
+<h3 class="step-title s-title">send a tap. no one knows but you.</h3>
+<p class="step-body s-body">see someone interesting? tap their card. it's completely anonymous — nothing visible, no notification sent unless it's mutual.</p>
+<ul class="step-bullets s-bullets">
+<li>one-tap anonymous signal</li>
+<li>nothing visible until mutual</li>
+<li>no awkward eye contact required</li>
+</ul>
+</div>
+<div class="step-photo">
+<img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop&q=80" alt="Send a tap"/>
+<div class="overlay"></div>
+<div class="chip"><span class="dot"></span> 23 in the room</div>
+</div>
 </div>
 
-<!-- FOOTER -->
+<div class="step">
+<div class="step-copy">
+<p class="step-num">03 —</p>
+<h3 class="step-title s-title">mutual tap. then it gets interesting.</h3>
+<p class="step-body s-body">if you both tapped, you both get notified. a private chat unlocks — no phone numbers shared, no social handles exchanged.</p>
+<ul class="step-bullets s-bullets">
+<li>both notified simultaneously</li>
+<li>private chat unlocks instantly</li>
+<li>no personal info shared</li>
+</ul>
+</div>
+<div class="step-photo">
+<img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80" alt="Mutual tap"/>
+<div class="overlay"></div>
+<div class="chip"><span class="dot"></span> 23 in the room</div>
+</div>
+</div>
+
+<div class="step reverse">
+<div class="step-copy">
+<p class="step-num">04 —</p>
+<h3 class="step-title s-title">for the ones who actually show up.</h3>
+<p class="step-body s-body">this isn't for everyone. every application is reviewed. twenty-plus venues across nyc. if you're in, you're in everywhere.</p>
+<ul class="step-bullets s-bullets">
+<li>every application reviewed</li>
+<li>20+ partner venues across nyc</li>
+<li>invite-only access</li>
+</ul>
+</div>
+<div class="step-photo">
+<img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&auto=format&fit=crop&q=80" alt="Show up"/>
+<div class="overlay"></div>
+<div class="chip"><span class="dot"></span> 23 in the room</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="apply" id="apply">
+<div class="apply-grid">
+<div class="apply-left">
+<p class="section-kicker" id="apply-kicker">join tap in</p>
+<h2 class="section-title" id="apply-title">not everyone<br>gets in. that's<br>the point.</h2>
+<p class="body-text" id="apply-body">tap in is a private membership for people who go out, who show up, who would rather meet someone in person than match on a screen.</p>
+<ul class="apply-bullets">
+<li>access to 20+ partner venues across nyc</li>
+<li>anonymous, mutual-only connections</li>
+<li>curated community — every member is reviewed</li>
+</ul>
+</div>
+<div class="apply-card">
+<div id="apply-form-wrap">
+<div class="card-header">
+<span class="card-label" id="card-label">member application</span>
+<span class="accepting"><span class="dot"></span> accepting now</span>
+</div>
+<form id="apply-form">
+<div class="field"><label>first name</label><input type="text" name="first_name" placeholder="Your first name" required/></div>
+<div class="field"><label>instagram handle</label><input type="text" name="instagram" placeholder="@handle"/></div>
+<div class="field"><label>email</label><input type="email" name="email" placeholder="you@email.com" required/></div>
+<div class="field" id="field-neighborhood"><label>neighborhood</label><input type="text" name="neighborhood" placeholder="Where in NYC?"/></div>
+<div class="card-rule"></div>
+<p class="screening-q" id="sq1">where do you usually go out?</p>
+<div class="field"><input type="text" name="q1" placeholder="Your answer"/></div>
+<p class="screening-q" id="sq2">what makes you a good addition to the room?</p>
+<div class="field"><input type="text" name="q2" placeholder="Your answer"/></div>
+<button type="submit" class="btn-submit">submit application</button>
+<p class="fine-print">reviewed within 48 hours. we'll be in touch.</p>
+</form>
+</div>
+<div class="form-success" id="form-success">
+<div class="check">✦</div>
+<h3>you're on the list.</h3>
+<p>we review every application personally. expect to hear from us within 48 hours.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="quote-section">
+<div class="quote-bg"></div>
+<div class="quote-overlay"></div>
+<blockquote>"you were both there.<br>you just didn't know it yet."</blockquote>
+<p class="attribution">tap in · not an app. a frequency.</p>
+</section>
+
 <footer>
-  <span class="foot-logo">tap in</span>
-  <span class="foot-copy">© 2026 tap in · nyc · private access</span>
-  <a class="foot-link" href="#apply">request access ↑</a>
+<a href="#" class="foot-logo">tap in</a>
+<span class="copy">© 2026 tap in. all rights reserved.</span>
+<a href="#apply" class="foot-link">request access ↑</a>
 </footer>
 
 <script>
-(function(){
-  // nav scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('dark', scrollY > 60), {passive:true});
+const membersData={
+heroSub:'walk in. see who\'s there. tap. if they tap back, you both know. zero rejection, zero awkwardness.',
+howKicker:'how it works',
+howTitle:'the experience',
+applyKicker:'join tap in',
+applyTitle:'not everyone<br>gets in. that\'s<br>the point.',
+applyBody:'tap in is a private membership for people who go out, who show up, who would rather meet someone in person than match on a screen.',
+cardLabel:'member application',
+sq1:'where do you usually go out?',
+sq2:'what makes you a good addition to the room?',
+neighborhoodShow:true,
+steps:[
+{title:'walk in. see who\'s here.',body:'scan the qr at the door. a live, anonymous grid shows who\'s checked in — no app download, no profiles to swipe through.',bullets:['scan at door, instant access','anonymous grid — first name and photo only','no app install required'],img:'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&auto=format&fit=crop&q=80'},
+{title:'send a tap. no one knows but you.',body:'see someone interesting? tap their card. it\'s completely anonymous — nothing visible, no notification sent unless it\'s mutual.',bullets:['one-tap anonymous signal','nothing visible until mutual','no awkward eye contact required'],img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop&q=80'},
+{title:'mutual tap. then it gets interesting.',body:'if you both tapped, you both get notified. a private chat unlocks — no phone numbers shared, no social handles exchanged.',bullets:['both notified simultaneously','private chat unlocks instantly','no personal info shared'],img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80'},
+{title:'for the ones who actually show up.',body:'this isn\'t for everyone. every application is reviewed. twenty-plus venues across nyc. if you\'re in, you\'re in everywhere.',bullets:['every application reviewed','20+ partner venues across nyc','invite-only access'],img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&auto=format&fit=crop&q=80'}
+]
+};
+const hostsData={
+heroSub:'give your guests a reason to stay longer, spend more, and come back. tap in turns your venue into a destination.',
+howKicker:'for venues',
+howTitle:'why hosts love it',
+applyKicker:'become a host',
+applyTitle:'your room.<br>their reason<br>to stay.',
+applyBody:'tap in partners with the best bars and venues in nyc. zero hardware, five-minute setup, measurable results from night one.',
+cardLabel:'host application',
+sq1:'what kind of venue do you run?',
+sq2:'what\'s your average weekend headcount?',
+neighborhoodShow:false,
+steps:[
+{title:'know your room in real time.',body:'see exactly who\'s in the room right now. live headcount, crowd composition, dwell time — all on your dashboard.',bullets:['real-time headcount','crowd composition analytics','average dwell time tracking'],img:'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&auto=format&fit=crop&q=80'},
+{title:'setup takes five minutes.',body:'print a qr code, put it at the door. that\'s it. no hardware, no integration, no training. your dashboard goes live instantly.',bullets:['qr code at the door — nothing else','no hardware or integration','dashboard goes live instantly'],img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop&q=80'},
+{title:'guests stay longer. spend more. come back.',body:'when people have a reason to stay, they stay. the send-a-drink mechanic alone drives measurable tab lift.',bullets:['measurable increase in dwell time','send-a-drink drives higher tabs','repeat visit rate up 40%'],img:'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80'},
+{title:'data you\'ve never had before.',body:'$499/mo gets you everything. weekly reports, return rate analytics, crowd insights. cancel anytime.',bullets:['$499/mo — cancel anytime','weekly performance reports','return rate and crowd analytics'],img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&auto=format&fit=crop&q=80'}
+]
+};
 
-  // toggle
-  let aud = 'members';
-  const allPills = document.querySelectorAll('.t-pill[data-aud]');
-  const panels   = document.querySelectorAll('.panel');
+let currentMode='members';
 
-  const copy = {
-    members: {
-      kicker:'for members', h:'built around<br>the people in the room.',
-      heroSub:'walk in. see who\'s there. tap. if they tap back, you both know. zero rejection, zero awkwardness.',
-      cardLabel:'member application', successP:'we\'ll reach out before the next session in nyc.'
-    },
-    hosts: {
-      kicker:'for hosts', h:'finally know what\'s<br>happening in your room.',
-      heroSub:'your guests are already here. tap in gives them a reason to stay and spend more — and gives you the data you\'ve never had.',
-      cardLabel:'host application', successP:'we\'ll be in touch. setup takes five minutes.'
-    }
-  };
+function setMode(mode){
+currentMode=mode;
+const data=mode==='members'?membersData:hostsData;
+document.querySelectorAll('.nav-toggle button').forEach(b=>{
+b.classList.toggle('active',b.dataset.mode===mode);
+});
+document.getElementById('hero-sub').textContent=data.heroSub;
+document.getElementById('how-kicker').textContent=data.howKicker;
+document.getElementById('how-title').textContent=data.howTitle;
+document.getElementById('apply-kicker').textContent=data.applyKicker;
+document.getElementById('apply-title').innerHTML=data.applyTitle;
+document.getElementById('apply-body').textContent=data.applyBody;
+document.getElementById('card-label').textContent=data.cardLabel;
+document.getElementById('sq1').textContent=data.sq1;
+document.getElementById('sq2').textContent=data.sq2;
+document.getElementById('field-neighborhood').style.display=data.neighborhoodShow?'block':'none';
 
-  function setAud(a) {
-    aud = a;
-    allPills.forEach(p => p.classList.toggle('on', p.dataset.aud === a));
-    panels.forEach(p => p.classList.toggle('on', p.id === 'panel-' + a));
-    const c = copy[a];
-    document.getElementById('secKicker').textContent = c.kicker;
-    document.getElementById('secH').innerHTML        = c.h;
-    document.getElementById('heroSub').textContent   = c.heroSub;
-    document.getElementById('cardLabel').textContent = c.cardLabel;
-    document.getElementById('successP').textContent  = c.successP;
-    document.getElementById('mFields').style.display = a === 'members' ? 'block' : 'none';
-    document.getElementById('hFields').style.display = a === 'hosts'   ? 'block' : 'none';
-  }
-  allPills.forEach(p => p.addEventListener('click', () => setAud(p.dataset.aud)));
+const steps=document.querySelectorAll('.step');
+data.steps.forEach((s,i)=>{
+if(!steps[i])return;
+steps[i].querySelector('.s-title').textContent=s.title;
+steps[i].querySelector('.s-body').textContent=s.body;
+const lis=steps[i].querySelectorAll('.s-bullets li');
+s.bullets.forEach((b,j)=>{if(lis[j])lis[j].textContent=b;});
+steps[i].querySelector('.step-photo img').src=s.img;
+});
+}
 
-  // form
-  const form = document.getElementById('form');
-  const btn  = document.getElementById('subBtn');
-  const succ = document.getElementById('successState');
+window.addEventListener('scroll',()=>{
+document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
 
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    const name  = document.getElementById('fname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    if (!name || !email) { document.getElementById(!name?'fname':'email').focus(); return; }
-    btn.disabled = true; btn.textContent = 'submitting...';
-    const p = { name, email, audience: aud, source:'landing-clean', ts: new Date().toISOString() };
-    if (aud === 'members') { p.bar = document.getElementById('bar').value.trim(); p.vibe = document.getElementById('vibe').value.trim(); }
-    else { p.venue = document.getElementById('venue').value.trim(); p.role = document.getElementById('role').value; p.hostQ = document.getElementById('hostQ').value.trim(); }
-    try { await fetch('https://api.tapin.vip/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}); } catch(_){}
-    form.style.display = 'none'; succ.style.display = 'flex';
-  });
-})();
+document.getElementById('apply-form').addEventListener('submit',async function(e){
+e.preventDefault();
+const fd=new FormData(this);
+const body={mode:currentMode};
+fd.forEach((v,k)=>{body[k]=v;});
+try{
+const btn=this.querySelector('.btn-submit');
+btn.textContent='submitting...';
+btn.disabled=true;
+await fetch('https://api.tapin.vip/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+}catch(err){}
+document.getElementById('apply-form-wrap').querySelector('form').style.display='none';
+document.getElementById('apply-form-wrap').querySelector('.card-header').style.display='none';
+document.getElementById('form-success').style.display='block';
+});
 </script>
 </body>
 </html>
